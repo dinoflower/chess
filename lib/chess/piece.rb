@@ -1,64 +1,99 @@
 # frozen_string_literal: true
 
+# This class represents a generic chess piece for either (black or white) player.
 class Piece
-  attr_reader :location, :symbol, :color
+  attr_reader :color, :type, :x, :y
 
   def initialize(color)
     @color = color
   end
+
+  def to_s; end
 end
 
+# The King subclass of Piece.
 class King < Piece
   def initialize(color)
     super(color)
-    @symbol = color == 'white' ? String.new('♔', encoding: 'UTF-8') : String.new('♚', encoding: 'UTF-8')
     @type = 'king'
-    @location = color == 'white' ? 'e1' : 'e8'
+    @x = 4
+    @y = color == 'white' ? 0 : 7
+  end
+
+  def to_s
+    @color == 'white' ? '♔' : '♚'
   end
 end
 
+# The Queen subclass of Piece.
 class Queen < Piece
   def initialize(color)
     super(color)
-    @symbol = color == 'white' ? String.new('♕', encoding: 'UTF-8') : String.new('♛', encoding: 'UTF-8')
     @type = 'queen'
-    @location = color == 'white' ? 'd1' : 'd8'
+    @x = 3
+    @y = color == 'white' ? 0 : 7
+  end
+
+  def to_s
+    @color == 'white' ? '♕' : '♛'
   end
 end
 
+# The Rook subclass of Piece.
 class Rook < Piece
   def initialize(color)
     super(color)
-    @symbol = color == 'white' ? String.new('♖', encoding: 'UTF-8') : String.new('♜', encoding: 'UTF-8')
     @type = 'rook'
-    @location = nil # each side has two, may need method to determine
+    @y = color == 'white' ? 0 : 7
+    @x = nil # each side has two, may need method to determine
+  end
+
+  def to_s
+    @color == 'white' ? '♖' : '♜'
   end
 end
 
+# The Bishop subclass of Piece.
 class Bishop < Piece
   def initialize(color)
     super(color)
-    @symbol = color == 'white' ? String.new('♗', encoding: 'UTF-8') : String.new('♝', encoding: 'UTF-8')
-    @type = 'rook'
-    @location = nil # each side has two, may need method to determine
+    @type = 'bishop'
+    @y = color == 'white' ? 0 : 7
+    @x = nil # each side has two, may need method to determine
+  end
+
+  def to_s
+    @color == 'white' ? '♗' : '♝'
   end
 end
 
+# The Knight subclass of Piece.
 class Knight < Piece
   def initialize(color)
     super(color)
     @color = color
-    @symbol = color == 'white' ? String.new('♘', encoding: 'UTF-8') : String.new('♞', encoding: 'UTF-8')
     @type = 'knight'
-    @location = nil # each side has two, may need method to determine
+    @y = color == 'white' ? 0 : 7
+    @x = nil # each side has two, may need method to determine
+  end
+
+  def to_s
+    @color == 'white' ? '♘' : '♞'
   end
 end
 
+# The Pawn subclass of Piece.
 class Pawn < Piece
   def initialize(color)
     super(color)
-    @symbol = color == 'white' ? String.new('♙', encoding: 'UTF-8') : String.new('♟', encoding: 'UTF-8')
     @type = 'pawn'
-    @location = nil # whatever the starting location is - will probably be determined by a method - possibly outside or factory method?
+    @y = color == 'white' ? 1 : 6
+    @x = nil # whatever the starting location is - will probably be determined by a method - possibly outside or factory method?
+  end
+
+  def to_s
+    @color == 'white' ? '♙' : '♟'
   end
 end
+
+# is this superclass necessary abstraction or messing up my duck typing?
