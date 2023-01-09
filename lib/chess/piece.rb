@@ -2,7 +2,7 @@
 
 # This class represents a generic chess piece for either (black or white) player.
 class Piece
-  attr_reader :color, :type, :x, :y
+  attr_reader :color, :type, :location
 
   def initialize(color)
     @color = color
@@ -13,11 +13,10 @@ end
 
 # The King subclass of Piece.
 class King < Piece
-  def initialize(color)
+  def initialize(color, location)
     super(color)
     @type = 'king'
-    @x = 4
-    @y = color == 'white' ? 0 : 7
+    @location = location
   end
 
   def to_s
@@ -27,11 +26,10 @@ end
 
 # The Queen subclass of Piece.
 class Queen < Piece
-  def initialize(color)
+  def initialize(color, location)
     super(color)
     @type = 'queen'
-    @x = 3
-    @y = color == 'white' ? 0 : 7
+    @location = location
   end
 
   def to_s
@@ -41,11 +39,10 @@ end
 
 # The Rook subclass of Piece.
 class Rook < Piece
-  def initialize(color)
+  def initialize(color, location)
     super(color)
     @type = 'rook'
-    @y = color == 'white' ? 0 : 7
-    @x = nil # each side has two, may need method to determine
+    @location = location
   end
 
   def to_s
@@ -55,11 +52,10 @@ end
 
 # The Bishop subclass of Piece.
 class Bishop < Piece
-  def initialize(color)
+  def initialize(color, location)
     super(color)
     @type = 'bishop'
-    @y = color == 'white' ? 0 : 7
-    @x = nil # each side has two, may need method to determine
+    @location = location
   end
 
   def to_s
@@ -69,12 +65,11 @@ end
 
 # The Knight subclass of Piece.
 class Knight < Piece
-  def initialize(color)
+  def initialize(color, location)
     super(color)
     @color = color
     @type = 'knight'
-    @y = color == 'white' ? 0 : 7
-    @x = nil # each side has two, may need method to determine
+    @location = location
   end
 
   def to_s
@@ -84,11 +79,10 @@ end
 
 # The Pawn subclass of Piece.
 class Pawn < Piece
-  def initialize(color)
+  def initialize(color, location)
     super(color)
     @type = 'pawn'
-    @y = color == 'white' ? 1 : 6
-    @x = nil # whatever the starting location is - will probably be determined by a method - possibly outside or factory method?
+    @location = location
   end
 
   def to_s
