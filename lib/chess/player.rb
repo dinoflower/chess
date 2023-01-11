@@ -4,29 +4,34 @@ require_relative 'piece'
 
 # This class represents a (black or white) chess player.
 class Player
-  def initialize(color, pieces)
+  attr_reader :pieces
+
+  def initialize(color, name, pieces)
     @color = color
+    @name = name
     @pieces = pieces
   end
 
   def self.create_player(color)
+    puts 'Please enter your name:'
+    name = gets.chomp.capitalize
     pieces = color == 'white' ? set_white : set_black
-    Player.new(color, pieces)
+    Player.new(color, name, pieces)
   end
 
   def self.set_white
     pieces = get_pawns('white')
-    h = { e1: King.new('white', 'e1'), d1: Queen.new('white', 'd1'), a1: Rook.new('white', 'a1'),
-          h1: Rook.new('white', 'h1'), c1: Bishop.new('white', 'c1'), f1: Bishop.new('white', 'f1'),
-          b1: Knight.new('white', 'b1'), g1: Knight.new('white', 'g1') }
+    h = { Ke1: King.new('white', 'e1'), Qd1: Queen.new('white', 'd1'), Ra1: Rook.new('white', 'a1'),
+          Rh1: Rook.new('white', 'h1'), Bc1: Bishop.new('white', 'c1'), Bf1: Bishop.new('white', 'f1'),
+          Nb1: Knight.new('white', 'b1'), Ng1: Knight.new('white', 'g1') }
     pieces.merge(h)
   end
 
   def self.set_black
     pieces = get_pawns('black')
-    h = { e8: King.new('black', 'e8'), d8: Queen.new('black', 'd8'), a8: Rook.new('black', 'a8'),
-          h8: Rook.new('black', 'h8'), c8: Bishop.new('black', 'c8'), f8: Bishop.new('black', 'f8'),
-          b8: Knight.new('black', 'b8'), g8: Knight.new('black', 'g8') }
+    h = { Ke8: King.new('black', 'e8'), Qd8: Queen.new('black', 'd8'), Ra8: Rook.new('black', 'a8'),
+          Rh8: Rook.new('black', 'h8'), Bc8: Bishop.new('black', 'c8'), Bf8: Bishop.new('black', 'f8'),
+          Nb8: Knight.new('black', 'b8'), Ng8: Knight.new('black', 'g8') }
     pieces.merge(h)
   end
 
@@ -40,5 +45,9 @@ class Player
       b_pawns.each { |pawn| pieces[pawn.to_sym] = Pawn.new('black', pawn) }
     end
     pieces
+  end
+
+  def to_s
+    "#{@color.capitalize}, #{@name}"
   end
 end

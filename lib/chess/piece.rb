@@ -89,5 +89,3 @@ class Pawn < Piece
     @color == 'white' ? '♙' : '♟'
   end
 end
-
-# is this superclass necessary abstraction or messing up my duck typing?
