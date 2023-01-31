@@ -2,17 +2,21 @@
 
 # This class represents a generic chess piece for either (black or white) player.
 class Piece
-  attr_reader :color, :type, :location
+  attr_accessor :location
+  attr_reader :color, :type
 
   def initialize(color)
     @color = color
   end
 
   def to_s; end
+
+  def move; end
 end
 
 # The King subclass of Piece.
 class King < Piece
+  VALID_MOVES = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].freeze
   def initialize(color, location)
     super(color)
     @type = 'king'
@@ -67,7 +71,6 @@ end
 class Knight < Piece
   def initialize(color, location)
     super(color)
-    @color = color
     @type = 'knight'
     @location = location
   end
@@ -89,3 +92,13 @@ class Pawn < Piece
     @color == 'white' ? '♙' : '♟'
   end
 end
+
+# see here for how to handle queen, rook, and bishop:
+# def check_moves
+#   next_moves = VALID_MOVES.map do |move|
+#     move.filter_map.with_index do |coord, index|
+#       coord + @location[index] unless (coord + @location[index]).negative? || (coord + @location[index]) > 7
+#     end
+#   end
+#   next_moves.keep_if { |move| move.length == 2 }
+# end
