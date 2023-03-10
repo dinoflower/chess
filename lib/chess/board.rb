@@ -9,7 +9,6 @@ class Board
   def initialize
     @board = generate_board
     set_board
-    print_board
   end
 
   def print_board
@@ -20,7 +19,6 @@ class Board
     end
   end
 
-  # TODO: include piece generation here
   def generate_board
     Array.new(8) { Array.new(8) }
   end
@@ -43,16 +41,22 @@ class Board
   end
 
   def set_white
-    @board[7][0] = Rook.new('black', 'a1')
-    @board[7][1] = Knight.new('black', 'b1')
-    @board[7][2] = Bishop.new('black', 'c1')
-    @board[7][3] = Queen.new('black', 'd1')
-    @board[7][4] = King.new('black', 'e1')
-    @board[7][5] = Bishop.new('black', 'f1')
-    @board[7][6] = Knight.new('black', 'g1')
-    @board[7][7] = Rook.new('black', 'h1')
+    @board[7][0] = Rook.new('white', 'a1')
+    @board[7][1] = Knight.new('white', 'b1')
+    @board[7][2] = Bishop.new('white', 'c1')
+    @board[7][3] = Queen.new('white', 'd1')
+    @board[7][4] = King.new('white', 'e1')
+    @board[7][5] = Bishop.new('white', 'f1')
+    @board[7][6] = Knight.new('white', 'g1')
+    @board[7][7] = Rook.new('white', 'h1')
   end
 
   def set_pawns
+    i = 0
+    until i >= 8
+      @board[1][i] = Pawn.new('black')
+      @board[6][i] = Pawn.new('white')
+      i += 1
+    end
   end
 end

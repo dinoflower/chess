@@ -82,10 +82,9 @@ end
 
 # The Pawn subclass of Piece.
 class Pawn < Piece
-  def initialize(color, location)
+  def initialize(color)
     super(color)
     @type = 'pawn'
-    @location = location
   end
 
   def to_s

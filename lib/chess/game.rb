@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require_relative 'player'
+require_relative 'board'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
   attr_reader :wh_player, :bl_player, :current_player
 
   def initialize
+    @board = Board.new
     @wh_player = nil
     @bl_player = nil
     @current_player = @wh_player
@@ -15,6 +17,7 @@ class Game
   def play_game
     intro
     set_players
+    @board.print_board
   end
 
   def set_players
@@ -25,31 +28,18 @@ class Game
   def create_player(color)
     puts 'Please enter your name:'
     name = gets.chomp.capitalize
-    pieces = color == 'white' ? set_white : set_black # reevaluate calling these methods here
-    Player.new(color, name, pieces)
+    Player.new(color, name)
   end
 
-  def get_pawns(color)
-    w_pawns = %w[a2 b2 c2 d2 e2 f2 g2 h2]
-    b_pawns = %w[a7 b7 c7 d7 e7 f7 g7 h7]
-    pieces = {}
-    if color == 'white'
-      w_pawns.each { |pawn| pieces[pawn.to_sym] = Pawn.new('white', pawn) }
-    else
-      b_pawns.each { |pawn| pieces[pawn.to_sym] = Pawn.new('black', pawn) }
-    end
-    pieces
-  end
+  # def play_turn
+    # current_piece = select_piece # then figure out where it wants to go
+  # end
 
-  def play_turn
-    current_piece = select_piece # then figure out where it wants to go
-  end
-
-  def select_piece
-    piece = gets.chomp
-    legal_piece = @current_player.verify_input(piece) if piece.match?(/[a-h][1-8]/) && piece.length == 2
-    return legal_piece if legal_piece
-  end
+  # def select_piece
+    # piece = gets.chomp
+    # legal_piece = @current_player.verify_input(piece) if piece.match?(/[a-h][1-8]/) && piece.length == 2
+    # return legal_piece if legal_piece
+  # end
 
   def intro
     puts <<~HEREDOC
