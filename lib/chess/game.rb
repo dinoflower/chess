@@ -29,22 +29,6 @@ class Game
     Player.new(color, name, pieces)
   end
 
-  def set_white
-    pieces = get_pawns('white')
-    h = { king: King.new('white', 'e1'), queen: Queen.new('white', 'd1'), qs_rook: Rook.new('white', 'a1'),
-          ks_rook: Rook.new('white', 'h1'), qs_bish: Bishop.new('white', 'c1'), ks_bish: Bishop.new('white', 'f1'),
-          qs_kni: Knight.new('white', 'b1'), ks_kni: Knight.new('white', 'g1') }
-    pieces.merge(h)
-  end
-
-  def set_black
-    pieces = get_pawns('black')
-    h = { king: King.new('black', 'e8'), queen: Queen.new('black', 'd8'), qs_rook: Rook.new('black', 'a8'),
-          ks_rook: Rook.new('black', 'h8'), qs_bish: Bishop.new('black', 'c8'), ks_bish: Bishop.new('black', 'f8'),
-          qs_kni: Knight.new('black', 'b8'), ks_kni: Knight.new('black', 'g8') }
-    pieces.merge(h)
-  end
-
   def get_pawns(color)
     w_pawns = %w[a2 b2 c2 d2 e2 f2 g2 h2]
     b_pawns = %w[a7 b7 c7 d7 e7 f7 g7 h7]

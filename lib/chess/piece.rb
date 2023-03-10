@@ -102,3 +102,5 @@ end
 #   end
 #   next_moves.keep_if { |move| move.length == 2 }
 # end
+
+# still considering x_position and y_position values
