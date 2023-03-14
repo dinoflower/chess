@@ -5,24 +5,26 @@ require_relative 'board'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
-  attr_reader :wh_player, :bl_player, :current_player
+  attr_reader :wh_player, :bl_player, :current_player, :board
 
   def initialize
     @board = Board.new
     @wh_player = nil
     @bl_player = nil
-    @current_player = @wh_player
+    @current_player = nil
   end
 
   def play_game
     intro
     set_players
     @board.print_board
+    play_turn
   end
 
   def set_players
     @wh_player = create_player('white')
     @bl_player = create_player('black')
+    @current_player = @wh_player
   end
 
   def create_player(color)
@@ -31,15 +33,44 @@ class Game
     Player.new(color, name)
   end
 
-  # def play_turn
-    # current_piece = select_piece # then figure out where it wants to go
-  # end
+  def play_turn
+    current_piece = choose_piece
+    puts @board.board[current_piece[0]][current_piece[1]].type.to_s
+    # target_space = [select_row, select_column]
+    # see if current_piece can move to target space
+  end
 
-  # def select_piece
-    # piece = gets.chomp
-    # legal_piece = @current_player.verify_input(piece) if piece.match?(/[a-h][1-8]/) && piece.length == 2
-    # return legal_piece if legal_piece
-  # end
+  def choose_piece
+    loop do
+      piece = [select_row, select_column]
+      chosen_piece = piece if @board.board[piece[0]][piece[1]].color == @current_player.color
+      return chosen_piece if chosen_piece
+
+      puts 'Please choose one of YOUR pieces.'
+    end
+  end
+
+  def select_row
+    loop do
+      puts 'Please enter the row/rank of the piece you would like to move:'
+      row = gets.chomp
+      legal_row = row.to_i if row.match?(/[0-7]/) && row.length == 1
+      return legal_row if legal_row
+
+      puts 'Please choose a row/rank on the board.'
+    end
+  end
+
+  def select_column
+    loop do
+      puts 'Please enter the column/file:'
+      column = gets.chomp
+      legal_column = column.to_i if column.match?(/[0-7]/) && column.length == 1
+      return legal_column if legal_column
+
+      puts 'Please choose a column/file on the board.'
+    end
+  end
 
   def intro
     puts <<~HEREDOC
@@ -48,8 +79,8 @@ class Game
       All standard rules apply, including castling, en passant, and promotion, but
       there is no timer. Type SAVE instead of making a move to save and exit your game.
 
-      Indicate the piece you would like to move by typing its location in algebraic
-      notation (e.g. 'e2') followed by your target square (e.g. 'e4').
+      Indicate the piece you would like to move by typing its location followed by the
+      location of your target square.
 
       White plays first.
 

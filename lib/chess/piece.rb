@@ -16,24 +16,29 @@ end
 
 # The King subclass of Piece.
 class King < Piece
-  VALID_MOVES = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].freeze
-  def initialize(color, location)
+  VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
+  def initialize(color)
     super(color)
     @type = 'king'
-    @location = location
   end
 
   def to_s
     @color == 'white' ? '♔' : '♚'
   end
+
+  def in_check?
+    # true if some conditions are met
+
+    false
+  end
 end
 
 # The Queen subclass of Piece.
 class Queen < Piece
-  def initialize(color, location)
+  VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
+  def initialize(color)
     super(color)
     @type = 'queen'
-    @location = location
   end
 
   def to_s
@@ -43,10 +48,10 @@ end
 
 # The Rook subclass of Piece.
 class Rook < Piece
-  def initialize(color, location)
+  VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0]].freeze # will need loop or recursion to get the full line
+  def initialize(color)
     super(color)
     @type = 'rook'
-    @location = location
   end
 
   def to_s
@@ -56,10 +61,10 @@ end
 
 # The Bishop subclass of Piece.
 class Bishop < Piece
-  def initialize(color, location)
+  VALID_MOVES = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze # another loop/recursive method
+  def initialize(color)
     super(color)
     @type = 'bishop'
-    @location = location
   end
 
   def to_s
@@ -69,10 +74,10 @@ end
 
 # The Knight subclass of Piece.
 class Knight < Piece
-  def initialize(color, location)
+  VALID_MOVES = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [-2, 1], [2, -1], [-2, -1]].freeze
+  def initialize(color)
     super(color)
     @type = 'knight'
-    @location = location
   end
 
   def to_s
@@ -82,6 +87,7 @@ end
 
 # The Pawn subclass of Piece.
 class Pawn < Piece
+  VALID_MOVES = [[0, -1]].freeze # either allow for en passant and first move here or add methods for those separately
   def initialize(color)
     super(color)
     @type = 'pawn'

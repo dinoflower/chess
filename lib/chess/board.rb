@@ -30,25 +30,25 @@ class Board
   end
 
   def set_black
-    @board[0][0] = Rook.new('black', 'a8')
-    @board[0][1] = Knight.new('black', 'b8')
-    @board[0][2] = Bishop.new('black', 'c8')
-    @board[0][3] = Queen.new('black', 'd8')
-    @board[0][4] = King.new('black', 'e8')
-    @board[0][5] = Bishop.new('black', 'f8')
-    @board[0][6] = Knight.new('black', 'g8')
-    @board[0][7] = Rook.new('black', 'h8')
+    @board[0][0] = Rook.new('black')
+    @board[0][1] = Knight.new('black')
+    @board[0][2] = Bishop.new('black')
+    @board[0][3] = Queen.new('black')
+    @board[0][4] = King.new('black')
+    @board[0][5] = Bishop.new('black')
+    @board[0][6] = Knight.new('black')
+    @board[0][7] = Rook.new('black')
   end
 
   def set_white
-    @board[7][0] = Rook.new('white', 'a1')
-    @board[7][1] = Knight.new('white', 'b1')
-    @board[7][2] = Bishop.new('white', 'c1')
-    @board[7][3] = Queen.new('white', 'd1')
-    @board[7][4] = King.new('white', 'e1')
-    @board[7][5] = Bishop.new('white', 'f1')
-    @board[7][6] = Knight.new('white', 'g1')
-    @board[7][7] = Rook.new('white', 'h1')
+    @board[7][0] = Rook.new('white')
+    @board[7][1] = Knight.new('white')
+    @board[7][2] = Bishop.new('white')
+    @board[7][3] = Queen.new('white')
+    @board[7][4] = King.new('white')
+    @board[7][5] = Bishop.new('white')
+    @board[7][6] = Knight.new('white')
+    @board[7][7] = Rook.new('white')
   end
 
   def set_pawns
