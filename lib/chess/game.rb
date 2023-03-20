@@ -2,6 +2,7 @@
 
 require_relative 'player'
 require_relative 'board'
+require_relative 'piece'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
@@ -36,8 +37,31 @@ class Game
   def play_turn
     current_piece = choose_piece
     puts @board.board[current_piece[0]][current_piece[1]].type.to_s
-    # target_space = [select_row, select_column]
-    # see if current_piece can move to target space
+    # TODO: add "undo" option here (on #current_piece?) if the output is not what the player wanted
+    target_space = [select_row, select_column]
+    check_path(current_piece, target_space)
+    @board.print_board
+  end
+
+  def check_path(start, finish)
+    complex_pieces = %w[queen rook bishop]
+    move = if @board.board[start[0]][start[1]].type == complex_pieces.any?
+             # do the recursion
+           else
+             check_simple(start, finish)
+           end
+    @board.move_piece(start, move) if move
+  end
+
+  def check_simple(start, finish)
+    piece = @board.board[start[0]][start[1]]
+    target = @board.board[finish[0]][finish[1]]
+    avail_moves = piece.check_moves
+    return unless avail_moves.any? == finish
+
+    return finish if target.nil? || target.opposite?(piece.color)
+
+    'Please choose a valid move.'
   end
 
   def choose_piece
@@ -52,7 +76,7 @@ class Game
 
   def select_row
     loop do
-      puts 'Please enter the row/rank of the piece you would like to move:'
+      puts 'Please enter the row/rank:'
       row = gets.chomp
       legal_row = row.to_i if row.match?(/[0-7]/) && row.length == 1
       return legal_row if legal_row
