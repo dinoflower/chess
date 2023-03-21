@@ -137,7 +137,7 @@ end
 
 # The Pawn subclass of Piece.
 class Pawn < Piece
-  VALID_MOVES = [[0, -1]].freeze # either allow for en passant and first move here or add methods for those separately
+  VALID_MOVES = [[-1, 0]].freeze # either allow for en passant and first move here or add methods for those separately
   def initialize(color, location)
     super(color, location)
     @type = 'pawn'

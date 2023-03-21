@@ -20,4 +20,14 @@ describe Game do
       end
     end
   end
+
+  describe '#check_path' do
+    subject(:path_game) { described_class.new }
+
+    context 'when there are no available moves' do
+      before do
+        allow(path_game).to receive(:check_simple).and_return
+      end
+    end
+  end
 end

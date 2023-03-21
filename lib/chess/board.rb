@@ -5,10 +5,12 @@ require_relative 'piece'
 # This class represents a standard chess board.
 class Board
   attr_accessor :board
+  attr_reader :files
 
   def initialize
     @board = generate_board
     set_board
+    @files = { 0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd', 4 => 'e', 5 => 'f', 6 => 'g', 7 => 'h' }
   end
 
   def move_piece(start, target)

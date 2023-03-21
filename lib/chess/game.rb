@@ -38,7 +38,7 @@ class Game
     current_piece = choose_piece
     puts @board.board[current_piece[0]][current_piece[1]].type.to_s
     # TODO: add "undo" option here (on #current_piece?) if the output is not what the player wanted
-    target_space = [select_row, select_column]
+    target_space = choose_target
     check_path(current_piece, target_space)
     @board.print_board
   end
@@ -50,14 +50,14 @@ class Game
            else
              check_simple(start, finish)
            end
-    @board.move_piece(start, move) if move
+    @board.move_piece(start, move) unless move.empty?
   end
 
   def check_simple(start, finish)
     piece = @board.board[start[0]][start[1]]
     target = @board.board[finish[0]][finish[1]]
     avail_moves = piece.check_moves
-    return unless avail_moves.any? == finish
+    return unless avail_moves.any? == finish # problem appears to be here
 
     return finish if target.nil? || target.opposite?(piece.color)
 
@@ -72,6 +72,10 @@ class Game
 
       puts 'Please choose one of YOUR pieces.'
     end
+  end
+
+  def choose_target
+    [select_row, select_column]
   end
 
   def select_row
