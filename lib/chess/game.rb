@@ -6,8 +6,6 @@ require_relative 'piece'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
-  attr_reader :wh_player, :bl_player, :current_player, :board
-
   def initialize(set: set_board,
                  wh_player: create_player('white'),
                  bl_player: create_player('black'))

@@ -5,7 +5,6 @@ require_relative 'piece'
 # This class represents a standard chess board.
 class ChessSet
   attr_accessor :board
-  attr_reader :files
 
   def initialize(board: generate_board)
     @board = board
@@ -23,7 +22,7 @@ class ChessSet
     print "    0 1 2 3 4 5 6 7\n"
     print "    _ _ _ _ _ _ _ _\n"
     @board.each_with_index do |row, i|
-      print "#{i}: |", row.map { |square| square.nil? ? '_' : square.to_s }.join('|'), "|\n"
+      print "#{i}: |", row.map { |square| square.nil? ? '_' : square.symbol }.join('|'), "|\n"
     end
   end
 
