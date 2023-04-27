@@ -12,7 +12,7 @@ class ChessSet
   end
 
   def move_piece(start, target)
-    piece = @board[start[0]][start[1]]
+    piece = simplify_piece(start)
     piece.location = target
     @board[target[0]][target[1]] = piece
     @board[start[0]][start[1]] = nil
@@ -58,12 +58,37 @@ class ChessSet
     @board[7][7] = Rook.new('white', [7, 7])
   end
 
+  # can the factory method call be isolated?
   def set_pawns
     i = 0
     until i >= 8
-      @board[1][i] = Pawn.new('black', [1, i])
-      @board[6][i] = Pawn.new('white', [6, i])
+      @board[1][i] = PieceFactory.call(type: 'pawn', color: 'black', location: [1, i])
+      @board[6][i] = PieceFactory.call(type: 'pawn', color: 'white', location: [6, i])
       i += 1
+    end
+  end
+
+  def simplify_piece(array)
+    @board[array[0]][array[1]]
+  end
+end
+
+# factory module for piece creation
+module PieceFactory
+  def self.call(params)
+    case params[:type]
+    when 'king'
+      King.new(params[:color], params[:location])
+    when 'queen'
+      Queen.new(params[:color], params[:location])
+    when 'rook'
+      Rook.new(params[:color], params[:location])
+    when 'bishop'
+      Bishop.new(params[:color], params[:location])
+    when 'knight'
+      Knight.new(params[:color], params[:location])
+    else
+      Pawn.new(params[:color], params[:location])
     end
   end
 end

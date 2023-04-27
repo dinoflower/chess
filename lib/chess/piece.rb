@@ -29,12 +29,6 @@ class King < Piece
     color == 'white' ? '♔' : '♚'
   end
 
-  def in_check?
-    # true if some conditions are met
-
-    false
-  end
-
   # TODO: encapsulate #check_moves and include it as a class or module
   def check_moves
     next_moves = VALID_MOVES.map do |move|

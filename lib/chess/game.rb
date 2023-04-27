@@ -35,9 +35,13 @@ class Game
     play_turn
   end
 
+  def simplify_piece(array)
+    @set.simplify_piece(array)
+  end
+
   def play_turn
     current_piece = choose_piece
-    puts @board[current_piece[0]][current_piece[1]].type.to_s
+    puts simplify_piece(current_piece).type.to_s
     # TODO: add "undo" option here (on #current_piece?) if the output is not what the player wanted
     target_space = choose_target
     check_path(current_piece, target_space)
@@ -46,7 +50,7 @@ class Game
 
   def check_path(start, finish)
     complex_pieces = %w[queen rook bishop]
-    move = if @board[start[0]][start[1]].type == complex_pieces.any?
+    move = if simplify_piece(start).type == complex_pieces.any?
              # do the recursion
            else
              check_simple(start, finish)
@@ -59,10 +63,10 @@ class Game
   end
 
   def check_simple(start, finish)
-    piece = @board[start[0]][start[1]]
-    target = @board[finish[0]][finish[1]]
-    avail_moves = piece.check_moves
-    return unless avail_moves.any? == finish # problem appears to be here
+    piece = simplify_piece(start)
+    target = simplify_piece(finish)
+    avail_moves = piece.check_moves # problem here due to piece naming in ChessSet class
+    return unless avail_moves.any?(finish)
 
     return finish if target.nil? || target.opposite?(piece.color)
 
@@ -72,7 +76,7 @@ class Game
   def choose_piece
     loop do
       piece = [select_row, select_column]
-      chosen_piece = piece if @board[piece[0]][piece[1]].color == @current_player.color
+      chosen_piece = piece if simplify_piece(piece).color == @current_player.color
       return chosen_piece if chosen_piece
 
       puts 'Please choose one of YOUR pieces.'
