@@ -8,54 +8,61 @@ require_relative 'piece'
 class Game
   attr_reader :wh_player, :bl_player, :current_player, :board
 
-  def initialize
-    @board = Board.new
-    @wh_player = nil
-    @bl_player = nil
-    @current_player = nil
+  def initialize(set: set_board,
+                 wh_player: create_player('white'),
+                 bl_player: create_player('black'))
+    @set = set
+    @board = set.board
+    @wh_player = wh_player
+    @bl_player = bl_player
+    @current_player = wh_player
   end
 
-  def play_game
-    intro
-    set_players
-    @board.print_board
-    play_turn
-  end
-
-  def set_players
-    @wh_player = create_player('white')
-    @bl_player = create_player('black')
-    @current_player = @wh_player
+  def set_board
+    ChessSet.new
   end
 
   def create_player(color)
-    puts 'Please enter your name:'
+    puts "#{color.capitalize} player, please enter your name:"
     name = gets.chomp.capitalize
     Player.new(color, name)
   end
 
+  def print_board
+    @set.print_board
+  end
+
+  def play_game
+    print_board
+    play_turn
+  end
+
   def play_turn
     current_piece = choose_piece
-    puts @board.board[current_piece[0]][current_piece[1]].type.to_s
+    puts @board[current_piece[0]][current_piece[1]].type.to_s
     # TODO: add "undo" option here (on #current_piece?) if the output is not what the player wanted
     target_space = choose_target
     check_path(current_piece, target_space)
-    @board.print_board
+    print_board
   end
 
   def check_path(start, finish)
     complex_pieces = %w[queen rook bishop]
-    move = if @board.board[start[0]][start[1]].type == complex_pieces.any?
+    move = if @board[start[0]][start[1]].type == complex_pieces.any?
              # do the recursion
            else
              check_simple(start, finish)
            end
-    @board.move_piece(start, move) unless move.empty?
+    if move.empty?
+      play_turn
+    else
+      @set.move_piece(start, move)
+    end
   end
 
   def check_simple(start, finish)
-    piece = @board.board[start[0]][start[1]]
-    target = @board.board[finish[0]][finish[1]]
+    piece = @board[start[0]][start[1]]
+    target = @board[finish[0]][finish[1]]
     avail_moves = piece.check_moves
     return unless avail_moves.any? == finish # problem appears to be here
 
@@ -67,7 +74,7 @@ class Game
   def choose_piece
     loop do
       piece = [select_row, select_column]
-      chosen_piece = piece if @board.board[piece[0]][piece[1]].color == @current_player.color
+      chosen_piece = piece if @board[piece[0]][piece[1]].color == @current_player.color
       return chosen_piece if chosen_piece
 
       puts 'Please choose one of YOUR pieces.'
@@ -100,18 +107,18 @@ class Game
     end
   end
 
-  def intro
-    puts <<~HEREDOC
-      Welcome to Chess!
+  # def intro
+    # puts <<~HEREDOC
+      # Welcome to Chess!
 
-      All standard rules apply, including castling, en passant, and promotion, but
-      there is no timer. Type SAVE instead of making a move to save and exit your game.
+      # All standard rules apply, including castling, en passant, and promotion, but
+      # there is no timer. Type SAVE instead of making a move to save and exit your game.
 
-      Indicate the piece you would like to move by typing its location followed by the
-      location of your target square.
+      # Indicate the piece you would like to move by typing its location followed by the
+      # location of your target square.
 
-      White plays first.
+      # White plays first.
 
-    HEREDOC
-  end
+    # HEREDOC
+  # end
 end
