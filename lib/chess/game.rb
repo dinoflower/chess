@@ -35,42 +35,50 @@ class Game
     play_turn
   end
 
-  def simplify_piece(array)
-    @set.simplify_piece(array)
+  private
+
+  def change_players
+    @current_player.color == 'white' ? @bl_player : @wh_player
   end
 
   def play_turn
     current_piece = choose_piece
     puts simplify_piece(current_piece).type.to_s
-    # TODO: add "undo" option here (on #current_piece?) if the output is not what the player wanted
     target_space = choose_target
-    check_path(current_piece, target_space)
+    check_nil(current_piece, target_space)
     print_board
+    @current_player = change_players
+  end
+
+  def check_nil(start, finish)
+    if check_path(start, finish).nil?
+      puts 'Please make a valid move.'
+      play_turn
+    else
+      move_piece(start, finish)
+    end
   end
 
   def check_path(start, finish)
     complex_pieces = %w[queen rook bishop]
-    move = if simplify_piece(start).type == complex_pieces.any?
-             # do the recursion
-           else
-             check_simple(start, finish)
-           end
-    if move.empty?
-      play_turn
+    if simplify_piece(start).type == complex_pieces.any?
+      # do the recursion
     else
-      @set.move_piece(start, move)
+      check_simple(start, finish)
     end
+  end
+
+  def move_piece(start, finish)
+    @set.move_piece(start, finish)
   end
 
   def check_simple(start, finish)
     piece = simplify_piece(start)
     target = simplify_piece(finish)
-    avail_moves = piece.check_moves # problem here due to piece naming in ChessSet class
+    avail_moves = piece.check_moves
     return unless avail_moves.any?(finish)
 
     return finish if target.nil? || target.opposite?(piece.color)
-
-    'Please choose a valid move.'
   end
 
   def choose_piece
@@ -107,6 +115,10 @@ class Game
 
       puts 'Please choose a column/file on the board.'
     end
+  end
+
+  def simplify_piece(array)
+    @set.simplify_piece(array)
   end
 
   # def intro

@@ -26,6 +26,12 @@ class ChessSet
     end
   end
 
+  def simplify_piece(array)
+    @board[array[0]][array[1]]
+  end
+
+  private
+
   def generate_board
     Array.new(8) { Array.new(8) }
   end
@@ -66,10 +72,6 @@ class ChessSet
       @board[6][i] = PieceFactory.call(type: 'pawn', color: 'white', location: [6, i])
       i += 1
     end
-  end
-
-  def simplify_piece(array)
-    @board[array[0]][array[1]]
   end
 end
 

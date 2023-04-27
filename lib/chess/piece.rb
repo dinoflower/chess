@@ -25,10 +25,6 @@ class King < Piece
     @symbol = symbol
   end
 
-  def confirm_symbol(color)
-    color == 'white' ? '♔' : '♚'
-  end
-
   # TODO: encapsulate #check_moves and include it as a class or module
   def check_moves
     next_moves = VALID_MOVES.map do |move|
@@ -37,6 +33,12 @@ class King < Piece
       end
     end
     next_moves.keep_if { |move| move.length == 2 }
+  end
+
+  private
+
+  def confirm_symbol(color)
+    color == 'white' ? '♔' : '♚'
   end
 end
 
@@ -50,10 +52,6 @@ class Queen < Piece
     @symbol = symbol
   end
 
-  def confirm_symbol(color)
-    color == 'white' ? '♕' : '♛'
-  end
-
   def check_moves
     next_moves = VALID_MOVES.map do |move|
       move.filter_map.with_index do |coord, index|
@@ -61,6 +59,12 @@ class Queen < Piece
       end
     end
     next_moves.keep_if { |move| move.length == 2 }
+  end
+
+  private
+
+  def confirm_symbol(color)
+    color == 'white' ? '♕' : '♛'
   end
 end
 
@@ -74,10 +78,6 @@ class Rook < Piece
     @symbol = symbol
   end
 
-  def confirm_symbol(color)
-    color == 'white' ? '♖' : '♜'
-  end
-
   def check_moves
     next_moves = VALID_MOVES.map do |move|
       move.filter_map.with_index do |coord, index|
@@ -85,6 +85,12 @@ class Rook < Piece
       end
     end
     next_moves.keep_if { |move| move.length == 2 }
+  end
+
+  private
+
+  def confirm_symbol(color)
+    color == 'white' ? '♖' : '♜'
   end
 end
 
@@ -98,10 +104,6 @@ class Bishop < Piece
     @symbol = symbol
   end
 
-  def confirm_symbol(color)
-    color == 'white' ? '♗' : '♝'
-  end
-
   def check_moves
     next_moves = VALID_MOVES.map do |move|
       move.filter_map.with_index do |coord, index|
@@ -109,6 +111,12 @@ class Bishop < Piece
       end
     end
     next_moves.keep_if { |move| move.length == 2 }
+  end
+
+  private
+
+  def confirm_symbol(color)
+    color == 'white' ? '♗' : '♝'
   end
 end
 
@@ -122,10 +130,6 @@ class Knight < Piece
     @symbol = symbol
   end
 
-  def confirm_symbol(color)
-    color == 'white' ? '♘' : '♞'
-  end
-
   def check_moves
     next_moves = VALID_MOVES.map do |move|
       move.filter_map.with_index do |coord, index|
@@ -133,6 +137,12 @@ class Knight < Piece
       end
     end
     next_moves.keep_if { |move| move.length == 2 }
+  end
+
+  private
+
+  def confirm_symbol(color)
+    color == 'white' ? '♘' : '♞'
   end
 end
 
@@ -146,10 +156,6 @@ class Pawn < Piece
     @symbol = symbol
   end
 
-  def confirm_symbol(color)
-    color == 'white' ? '♙' : '♟'
-  end
-
   def check_moves
     next_moves = VALID_MOVES.map do |move|
       move.filter_map.with_index do |coord, index|
@@ -157,6 +163,12 @@ class Pawn < Piece
       end
     end
     next_moves.keep_if { |move| move.length == 2 }
+  end
+
+  private
+
+  def confirm_symbol(color)
+    color == 'white' ? '♙' : '♟'
   end
 end
 
