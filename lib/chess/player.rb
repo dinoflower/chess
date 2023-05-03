@@ -25,6 +25,7 @@ class Player
     @game.print_board
   end
 
+  # simplify_piece can currently return nil, causing error
   def choose_piece
     loop do
       piece = [select_row, select_column]
