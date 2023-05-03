@@ -5,9 +5,9 @@ class Piece
   attr_accessor :location
   attr_reader :color, :type, :symbol
 
-  def initialize(color, location)
-    @color = color
-    @location = location
+  def initialize(**opts)
+    @color = opts[:color]
+    @location = opts[:location]
   end
 
   def opposite?(player_color)
@@ -18,11 +18,11 @@ end
 # The King subclass of Piece.
 class King < Piece
   VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
-  def initialize(color, location, symbol: confirm_symbol(color))
-    super(color, location)
+  def initialize(**opts)
     @moves = VALID_MOVES
     @type = 'king'
-    @symbol = symbol
+    @symbol = confirm_symbol(opts[:color])
+    super
   end
 
   # TODO: encapsulate #check_moves and include it as a class or module
@@ -45,11 +45,11 @@ end
 # The Queen subclass of Piece.
 class Queen < Piece
   VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
-  def initialize(color, location, symbol: confirm_symbol(color))
-    super(color, location)
+  def initialize(**opts)
     @moves = VALID_MOVES
     @type = 'queen'
-    @symbol = symbol
+    @symbol = confirm_symbol(opts[:color])
+    super
   end
 
   def check_moves
@@ -71,11 +71,11 @@ end
 # The Rook subclass of Piece.
 class Rook < Piece
   VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0]].freeze # will need loop or recursion to get the full line
-  def initialize(color, location, symbol: confirm_symbol(color))
-    super(color, location)
+  def initialize(**opts)
     @moves = VALID_MOVES
     @type = 'rook'
-    @symbol = symbol
+    @symbol = confirm_symbol(opts[:color])
+    super
   end
 
   def check_moves
@@ -97,11 +97,11 @@ end
 # The Bishop subclass of Piece.
 class Bishop < Piece
   VALID_MOVES = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze # another loop/recursive method
-  def initialize(color, location, symbol: confirm_symbol(color))
-    super(color, location)
+  def initialize(**opts)
     @moves = VALID_MOVES
     @type = 'bishop'
-    @symbol = symbol
+    @symbol = confirm_symbol(opts[:color])
+    super
   end
 
   def check_moves
@@ -123,11 +123,11 @@ end
 # The Knight subclass of Piece.
 class Knight < Piece
   VALID_MOVES = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [-2, 1], [2, -1], [-2, -1]].freeze
-  def initialize(color, location, symbol: confirm_symbol(color))
-    super(color, location)
+  def initialize(**opts)
     @moves = VALID_MOVES
     @type = 'knight'
-    @symbol = symbol
+    @symbol = confirm_symbol(opts[:color])
+    super
   end
 
   def check_moves
@@ -149,11 +149,11 @@ end
 # The Pawn subclass of Piece.
 class Pawn < Piece
   VALID_MOVES = [[-1, 0]].freeze # either allow for en passant and first move here or add methods for those separately
-  def initialize(color, location, symbol: confirm_symbol(color))
-    super(color, location)
+  def initialize(**opts)
     @moves = VALID_MOVES
     @type = 'pawn'
-    @symbol = symbol
+    @symbol = confirm_symbol(opts[:color])
+    super
   end
 
   def check_moves

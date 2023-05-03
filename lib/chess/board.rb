@@ -43,54 +43,54 @@ class ChessSet
   end
 
   def set_black
-    @board[0][0] = Rook.new('black', [0, 0])
-    @board[0][1] = Knight.new('black', [0, 1])
-    @board[0][2] = Bishop.new('black', [0, 2])
-    @board[0][3] = Queen.new('black', [0, 3])
-    @board[0][4] = King.new('black', [0, 4])
-    @board[0][5] = Bishop.new('black', [0, 5])
-    @board[0][6] = Knight.new('black', [0, 6])
-    @board[0][7] = Rook.new('black', [0, 7])
+    @board[0][0] = Rook.new(color: 'black', location: [0, 0])
+    @board[0][1] = Knight.new(color: 'black', location: [0, 1])
+    @board[0][2] = Bishop.new(color: 'black', location: [0, 2])
+    @board[0][3] = Queen.new(color: 'black', location: [0, 3])
+    @board[0][4] = King.new(color: 'black', location: [0, 4])
+    @board[0][5] = Bishop.new(color: 'black', location: [0, 5])
+    @board[0][6] = Knight.new(color: 'black', location: [0, 6])
+    @board[0][7] = Rook.new(color: 'black', location: [0, 7])
   end
 
   def set_white
-    @board[7][0] = Rook.new('white', [7, 0])
-    @board[7][1] = Knight.new('white', [7, 1])
-    @board[7][2] = Bishop.new('white', [7, 2])
-    @board[7][3] = Queen.new('white', [7, 3])
-    @board[7][4] = King.new('white', [7, 4])
-    @board[7][5] = Bishop.new('white', [7, 5])
-    @board[7][6] = Knight.new('white', [7, 6])
-    @board[7][7] = Rook.new('white', [7, 7])
+    @board[7][0] = Rook.new(color: 'white', location: [7, 0])
+    @board[7][1] = Knight.new(color: 'white', location: [7, 1])
+    @board[7][2] = Bishop.new(color: 'white', location: [7, 2])
+    @board[7][3] = Queen.new(color: 'white', location: [7, 3])
+    @board[7][4] = King.new(color: 'white', location: [7, 4])
+    @board[7][5] = Bishop.new(color: 'white', location: [7, 5])
+    @board[7][6] = Knight.new(color: 'white', location: [7, 6])
+    @board[7][7] = Rook.new(color: 'white', location: [7, 7])
   end
 
   # can the factory method call be isolated?
   def set_pawns
     i = 0
     until i >= 8
-      @board[1][i] = PieceFactory.call(type: 'pawn', color: 'black', location: [1, i])
-      @board[6][i] = PieceFactory.call(type: 'pawn', color: 'white', location: [6, i])
+      @board[1][i] = Pawn.new(color: 'black', location: [1, i])
+      @board[6][i] = Pawn.new(color: 'white', location: [6, i])
       i += 1
     end
   end
 end
 
 # factory module for piece creation
-module PieceFactory
-  def self.call(params)
-    case params[:type]
-    when 'king'
-      King.new(params[:color], params[:location])
-    when 'queen'
-      Queen.new(params[:color], params[:location])
-    when 'rook'
-      Rook.new(params[:color], params[:location])
-    when 'bishop'
-      Bishop.new(params[:color], params[:location])
-    when 'knight'
-      Knight.new(params[:color], params[:location])
-    else
-      Pawn.new(params[:color], params[:location])
-    end
-  end
-end
+# module PieceFactory
+  # def self.call(params)
+    # case params[:type]
+    # when 'king'
+      # King.new(params[:color], params[:location])
+    # when 'queen'
+      # Queen.new(params[:color], params[:location])
+    # when 'rook'
+      # Rook.new(params[:color], params[:location])
+    # when 'bishop'
+      # Bishop.new(params[:color], params[:location])
+    # when 'knight'
+      # Knight.new(params[:color], params[:location])
+    # else
+      # Pawn.new(params[:color], params[:location])
+    # end
+  # end
+# end
