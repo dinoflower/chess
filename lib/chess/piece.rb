@@ -173,3 +173,5 @@ class Pawn < Piece
     color == 'white' ? '♙' : '♟'
   end
 end
+
+# post_initialize(opts) to send opts to subclasses instead of expecting them to send to Piece?

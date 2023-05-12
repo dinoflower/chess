@@ -6,9 +6,11 @@ require_relative 'game'
 class Player
   attr_reader :color
 
-  def initialize(color, name, game)
+  def initialize(color, name, set, game)
     @color = color
     @name = name
+    @set = set
+    @board = set.board
     @game = game
   end
 
@@ -22,7 +24,7 @@ class Player
     puts simplify_piece(current_piece).type.to_s
     target_space = choose_target
     check_nil(current_piece, target_space)
-    @game.print_board
+    print_board
   end
 
   # simplify_piece can currently return nil, causing error
@@ -50,10 +52,14 @@ class Player
     end
   end
 
-  def move_piece(start, finish)
-    @game.move_piece(start, finish)
+  def move_piece(start, target)
+    piece = simplify_piece(start)
+    piece.location = target
+    @board[target[0]][target[1]] = piece
+    @board[start[0]][start[1]] = nil
   end
 
+  # this should belong to the pieces or a module, since it's checking type
   def check_path(start, finish)
     complex_pieces = %w[queen rook bishop]
     if simplify_piece(start).type == complex_pieces.any?
@@ -95,6 +101,10 @@ class Player
   end
 
   def simplify_piece(array)
-    @game.simplify_piece(array)
+    @board[array[0]][array[1]]
+  end
+
+  def print_board
+    @set.print_board
   end
 end

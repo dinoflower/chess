@@ -11,23 +11,12 @@ class ChessSet
     set_board
   end
 
-  def move_piece(start, target)
-    piece = simplify_piece(start)
-    piece.location = target
-    @board[target[0]][target[1]] = piece
-    @board[start[0]][start[1]] = nil
-  end
-
   def print_board
     print "    0 1 2 3 4 5 6 7\n"
     print "    _ _ _ _ _ _ _ _\n"
     @board.each_with_index do |row, i|
       print "#{i}: |", row.map { |square| square.nil? ? '_' : square.symbol }.join('|'), "|\n"
     end
-  end
-
-  def simplify_piece(array)
-    @board[array[0]][array[1]]
   end
 
   private
@@ -64,7 +53,6 @@ class ChessSet
     @board[7][7] = Rook.new(color: 'white', location: [7, 7])
   end
 
-  # can the factory method call be isolated?
   def set_pawns
     i = 0
     until i >= 8
