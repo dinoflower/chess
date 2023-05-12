@@ -17,13 +17,13 @@ class Game
     start_game
     @current_player.play_turn
     @current_player = change_players
+    @set.print_board
   end
 
   def start_game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = @wh_player
-    @set.print_board
   end
 
   private

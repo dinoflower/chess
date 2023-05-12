@@ -44,6 +44,13 @@ class King < Piece
     super
   end
 
+  def check_path(player, target, finish)
+    avail_moves = check_moves
+    return unless avail_moves.any?(finish)
+
+    return finish if target.nil? || target.opposite?(player.color)
+  end
+
   private
 
   def default_type
@@ -66,6 +73,8 @@ class Queen < Piece
     @symbol = confirm_symbol(opts[:color])
     super
   end
+
+  def check_path(player, target, finish); end
 
   private
 
@@ -90,6 +99,8 @@ class Rook < Piece
     super
   end
 
+  def check_path(player, target, finish); end
+
   private
 
   def default_type
@@ -112,6 +123,8 @@ class Bishop < Piece
     @symbol = confirm_symbol(opts[:color])
     super
   end
+
+  def check_path(player, target, finish); end
 
   private
 
@@ -136,6 +149,13 @@ class Knight < Piece
     super
   end
 
+  def check_path(player, target, finish)
+    avail_moves = check_moves
+    return unless avail_moves.any?(finish)
+
+    return finish if target.nil? || target.opposite?(player.color)
+  end
+
   private
 
   def default_type
@@ -157,6 +177,13 @@ class Pawn < Piece
   def initialize(**opts)
     @symbol = confirm_symbol(opts[:color])
     super
+  end
+
+  def check_path(player, target, finish)
+    avail_moves = check_moves
+    return unless avail_moves.any?(finish)
+
+    return finish if target.nil? || target.opposite?(player.color)
   end
 
   private

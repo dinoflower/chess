@@ -44,7 +44,7 @@ class Player
   end
 
   def check_nil(start, finish)
-    if check_path(start, finish).nil?
+    if check(start, finish).nil?
       puts 'Please make a valid move.'
       play_turn
     else
@@ -52,30 +52,17 @@ class Player
     end
   end
 
+  def check(start, finish)
+    piece = simplify_piece(start)
+    target = simplify_piece(finish)
+    piece.check_path(self, target, finish)
+  end
+
   def move_piece(start, target)
     piece = simplify_piece(start)
     piece.location = target
     @board[target[0]][target[1]] = piece
     @board[start[0]][start[1]] = nil
-  end
-
-  # this should belong to the pieces or a module, since it's checking type
-  def check_path(start, finish)
-    complex_pieces = %w[queen rook bishop]
-    if simplify_piece(start).type == complex_pieces.any?
-      # do the recursion
-    else
-      check_simple(start, finish)
-    end
-  end
-
-  def check_simple(start, finish)
-    piece = simplify_piece(start)
-    target = simplify_piece(finish)
-    avail_moves = piece.check_moves
-    return unless avail_moves.any?(finish)
-
-    return finish if target.nil? || target.opposite?(piece.color)
   end
 
   def select_row
