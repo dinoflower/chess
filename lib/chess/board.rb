@@ -3,18 +3,18 @@
 require_relative 'piece'
 
 # This class represents a standard chess board.
-class ChessSet
-  attr_accessor :board
+class Board
+  attr_accessor :grid
 
-  def initialize(board: generate_board)
-    @board = board
+  def initialize(grid: generate_board)
+    @grid = grid
     set_board
   end
 
   def print_board
     print "    0 1 2 3 4 5 6 7\n"
     print "    _ _ _ _ _ _ _ _\n"
-    @board.each_with_index do |row, i|
+    @grid.each_with_index do |row, i|
       print "#{i}: |", row.map { |square| square.nil? ? '_' : square.symbol }.join('|'), "|\n"
     end
   end
@@ -32,7 +32,7 @@ class ChessSet
   end
 
   def set_row(color, number)
-    @board[number] = [
+    @grid[number] = [
       Rook.new(color: color, location: [number, 0]),
       Knight.new(color: color, location: [number, 1]),
       Bishop.new(color: color, location: [number, 2]),
@@ -47,8 +47,8 @@ class ChessSet
   def set_pawns
     i = 0
     until i >= 8
-      @board[1][i] = Pawn.new(color: 'black', location: [1, i])
-      @board[6][i] = Pawn.new(color: 'white', location: [6, i])
+      @grid[1][i] = Pawn.new(color: 'black', location: [1, i])
+      @grid[6][i] = Pawn.new(color: 'white', location: [6, i])
       i += 1
     end
   end

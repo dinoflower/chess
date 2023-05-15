@@ -12,6 +12,7 @@ class Piece
     @moves = valid_moves
   end
 
+  # TODO: move to new class or module
   def check_moves
     next_moves = @moves.map do |move|
       move.filter_map.with_index do |coord, index|

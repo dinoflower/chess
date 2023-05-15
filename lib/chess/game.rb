@@ -5,9 +5,9 @@ require_relative 'board'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
-  def initialize(set: set_board, wh_player: nil, bl_player: nil)
-    @set = set
-    @board = set.board
+  def initialize(board: set_board, wh_player: nil, bl_player: nil)
+    @board = board
+    @grid = board.grid
     @wh_player = wh_player
     @bl_player = bl_player
     @current_player = nil
@@ -17,14 +17,14 @@ class Game
     start_game
     @current_player.play_turn
     @current_player = change_players
-    @set.print_board
+    @board.print_board
   end
 
   def start_game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = @wh_player
-    @set.print_board
+    @board.print_board
   end
 
   private
@@ -36,11 +36,11 @@ class Game
   def create_player(color)
     puts "#{color.capitalize} player, please enter your name:"
     name = gets.chomp.capitalize
-    Player.new(color: color, name: name, set: @set, board: @board, game: self)
+    Player.new(color: color, name: name, board: @board, grid: @grid, game: self)
   end
 
   def set_board
-    ChessSet.new
+    Board.new
   end
 
   # def intro

@@ -9,8 +9,8 @@ class Player
   def initialize(**opts)
     @color = opts[:color]
     @name = opts[:name]
-    @set = opts[:set]
     @board = opts[:board]
+    @grid = opts[:grid]
     @game = opts[:game]
   end
 
@@ -61,8 +61,8 @@ class Player
   def move_piece(start, target)
     piece = simplify_piece(start)
     piece.location = target
-    @board[target[0]][target[1]] = piece
-    @board[start[0]][start[1]] = nil
+    @grid[target[0]][target[1]] = piece
+    @grid[start[0]][start[1]] = nil
   end
 
   def select_row
@@ -88,10 +88,10 @@ class Player
   end
 
   def simplify_piece(array)
-    @board[array[0]][array[1]]
+    @grid[array[0]][array[1]]
   end
 
   def print_board
-    @set.print_board
+    @board.print_board
   end
 end
