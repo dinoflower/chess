@@ -6,12 +6,12 @@ require_relative 'game'
 class Player
   attr_reader :color
 
-  def initialize(color, name, set, game)
-    @color = color
-    @name = name
-    @set = set
-    @board = set.board
-    @game = game
+  def initialize(**opts)
+    @color = opts[:color]
+    @name = opts[:name]
+    @set = opts[:set]
+    @board = opts[:board]
+    @game = opts[:game]
   end
 
   def to_s

@@ -26,31 +26,22 @@ class ChessSet
   end
 
   def set_board
-    set_black
-    set_white
+    set_row(:black, 0)
+    set_row(:white, 7)
     set_pawns
   end
 
-  def set_black
-    @board[0][0] = Rook.new(color: 'black', location: [0, 0])
-    @board[0][1] = Knight.new(color: 'black', location: [0, 1])
-    @board[0][2] = Bishop.new(color: 'black', location: [0, 2])
-    @board[0][3] = Queen.new(color: 'black', location: [0, 3])
-    @board[0][4] = King.new(color: 'black', location: [0, 4])
-    @board[0][5] = Bishop.new(color: 'black', location: [0, 5])
-    @board[0][6] = Knight.new(color: 'black', location: [0, 6])
-    @board[0][7] = Rook.new(color: 'black', location: [0, 7])
-  end
-
-  def set_white
-    @board[7][0] = Rook.new(color: 'white', location: [7, 0])
-    @board[7][1] = Knight.new(color: 'white', location: [7, 1])
-    @board[7][2] = Bishop.new(color: 'white', location: [7, 2])
-    @board[7][3] = Queen.new(color: 'white', location: [7, 3])
-    @board[7][4] = King.new(color: 'white', location: [7, 4])
-    @board[7][5] = Bishop.new(color: 'white', location: [7, 5])
-    @board[7][6] = Knight.new(color: 'white', location: [7, 6])
-    @board[7][7] = Rook.new(color: 'white', location: [7, 7])
+  def set_row(color, number)
+    @board[number] = [
+      Rook.new(color: color, location: [number, 0]),
+      Knight.new(color: color, location: [number, 1]),
+      Bishop.new(color: color, location: [number, 2]),
+      Queen.new(color: color, location: [number, 3]),
+      King.new(color: color, location: [number, 4]),
+      Bishop.new(color: color, location: [number, 5]),
+      Knight.new(color: color, location: [number, 6]),
+      Rook.new(color: color, location: [number, 7])
+    ]
   end
 
   def set_pawns
@@ -62,23 +53,3 @@ class ChessSet
     end
   end
 end
-
-# factory module for piece creation
-# module PieceFactory
-  # def self.call(params)
-    # case params[:type]
-    # when 'king'
-      # King.new(params[:color], params[:location])
-    # when 'queen'
-      # Queen.new(params[:color], params[:location])
-    # when 'rook'
-      # Rook.new(params[:color], params[:location])
-    # when 'bishop'
-      # Bishop.new(params[:color], params[:location])
-    # when 'knight'
-      # Knight.new(params[:color], params[:location])
-    # else
-      # Pawn.new(params[:color], params[:location])
-    # end
-  # end
-# end

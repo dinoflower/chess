@@ -24,6 +24,7 @@ class Game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = @wh_player
+    @set.print_board
   end
 
   private
@@ -35,7 +36,7 @@ class Game
   def create_player(color)
     puts "#{color.capitalize} player, please enter your name:"
     name = gets.chomp.capitalize
-    Player.new(color, name, @set, self)
+    Player.new(color: color, name: name, set: @set, board: @board, game: self)
   end
 
   def set_board
