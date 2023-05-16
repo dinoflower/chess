@@ -2,9 +2,12 @@
 
 require_relative 'player'
 require_relative 'board'
+require_relative 'ui'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
+  include UI
+
   def initialize(board: set_board, wh_player: nil, bl_player: nil)
     @board = board
     @grid = board.grid
@@ -25,7 +28,7 @@ class Game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = @wh_player
-    @board.print_board
+    print_board
   end
 
   def game_over?
@@ -43,27 +46,10 @@ class Game
   end
 
   def create_player(color)
-    puts "#{color.capitalize} player, please enter your name:"
-    name = gets.chomp.capitalize
-    Player.new(color: color, name: name, board: @board, grid: @grid, game: self)
+    Player.new(color: color, name: get_name(color), board: @board, grid: @grid, game: self)
   end
 
   def set_board
     Board.new
   end
-
-  # def intro
-    # puts <<~HEREDOC
-      # Welcome to Chess!
-
-      # All standard rules apply, including castling, en passant, and promotion, but
-      # there is no timer. Type SAVE instead of making a move to save and exit your game.
-
-      # Indicate the piece you would like to move by typing its location followed by the
-      # location of your target square.
-
-      # White plays first.
-
-    # HEREDOC
-  # end
 end

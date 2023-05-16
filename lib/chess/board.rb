@@ -11,14 +11,6 @@ class Board
     set_board
   end
 
-  def print_board
-    print "    0 1 2 3 4 5 6 7\n"
-    print "    _ _ _ _ _ _ _ _\n"
-    @grid.each_with_index do |row, i|
-      print "#{i}: |", row.map { |square| square.nil? ? '_' : square.symbol }.join('|'), "|\n"
-    end
-  end
-
   def move_piece(start, target)
     piece = @grid[start[0]][start[1]]
     piece.location = target
