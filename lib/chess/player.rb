@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'game'
+require_relative 'move_checker'
 
 # This class represents a (black or white) chess player.
 class Player
+  include MoveChecker
   attr_reader :color
 
   def initialize(**opts)
@@ -24,45 +26,17 @@ class Player
     puts simplify_piece(current_piece).type.to_s
     target_space = choose_target
     check_nil(current_piece, target_space)
-    print_board
+    @board.print_board
   end
 
-  # simplify_piece can currently return nil, causing error
   def choose_piece
     loop do
       piece = [select_row, select_column]
-      chosen_piece = piece if simplify_piece(piece).color == @color
+      chosen_piece = piece unless simplify_piece(piece).nil? || simplify_piece(piece).color != @color
       return chosen_piece if chosen_piece
 
       puts 'Please choose one of YOUR pieces.'
     end
-  end
-
-  def choose_target
-    puts 'Select your destination space.'
-    [select_row, select_column]
-  end
-
-  def check_nil(start, finish)
-    if check(start, finish).nil?
-      puts 'Please make a valid move.'
-      play_turn
-    else
-      move_piece(start, finish)
-    end
-  end
-
-  def check(start, finish)
-    piece = simplify_piece(start)
-    target = simplify_piece(finish)
-    piece.check_path(self, target, finish)
-  end
-
-  def move_piece(start, target)
-    piece = simplify_piece(start)
-    piece.location = target
-    @grid[target[0]][target[1]] = piece
-    @grid[start[0]][start[1]] = nil
   end
 
   def select_row
@@ -85,13 +59,5 @@ class Player
 
       puts 'Please choose a column/file on the board.'
     end
-  end
-
-  def simplify_piece(array)
-    @grid[array[0]][array[1]]
-  end
-
-  def print_board
-    @board.print_board
   end
 end

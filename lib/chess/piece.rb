@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'move_checker'
+
 # This class represents a generic chess piece for either (black or white) player.
 class Piece
+  include MoveChecker
   attr_accessor :location
   attr_reader :color, :type, :symbol
 
@@ -10,20 +13,6 @@ class Piece
     @location = opts[:location]
     @type = default_type
     @moves = valid_moves
-  end
-
-  # TODO: move to new class or module
-  def check_moves
-    next_moves = @moves.map do |move|
-      move.filter_map.with_index do |coord, index|
-        coord + @location[index] unless (coord + @location[index]).negative? || (coord + @location[index]) > 7
-      end
-    end
-    next_moves.keep_if { |move| move.length == 2 }
-  end
-
-  def opposite?(player_color)
-    @color != player_color
   end
 
   private

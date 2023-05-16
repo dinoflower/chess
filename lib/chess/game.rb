@@ -15,9 +15,10 @@ class Game
 
   def play_game
     start_game
-    @current_player.play_turn
-    @current_player = change_players
-    @board.print_board
+    # until game_over?
+      @current_player.play_turn
+      change_players
+    # end
   end
 
   def start_game
@@ -27,9 +28,17 @@ class Game
     @board.print_board
   end
 
+  def game_over?
+    return false unless @board.checkmate?(opponent.color)
+  end
+
   private
 
   def change_players
+    @current_player = opponent
+  end
+
+  def opponent
     @current_player.color == 'white' ? @bl_player : @wh_player
   end
 
