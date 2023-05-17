@@ -52,3 +52,5 @@ module UI
     # HEREDOC
   # end
 end
+
+# TODO: implement color/highlighting

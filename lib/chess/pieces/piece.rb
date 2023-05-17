@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'move_checker'
+require_relative '../move_checker'
 
 # This class represents a generic chess piece for either (black or white) player.
 class Piece
@@ -192,3 +192,4 @@ class Pawn < Piece
 end
 
 # post_initialize(opts) to send opts to subclasses instead of expecting them to send to Piece?
+# TODO: separate piece subclasses into individual files in 'pieces' folder

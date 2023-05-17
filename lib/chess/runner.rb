@@ -21,7 +21,7 @@ class Runner
 
   # e.g. to start a new game or load a save?
   # def parse_options
-    # options = OptionParser.new 
+    # options = OptionParser.new
     # options.banner = "Usage: chess [options]"
     # options.on('-h', '--help',          "Show this message")          { puts(options); exit }
     # options.parse!(@arguments)

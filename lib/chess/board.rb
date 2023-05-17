@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'piece'
+require_relative 'pieces/piece'
 
 # This class represents a standard chess board.
 class Board
