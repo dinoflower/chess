@@ -54,3 +54,5 @@ module UI
 end
 
 # TODO: implement color/highlighting
+# TODO: #save and #quit will go here with the #save method then calling Serializer
+# likely also a #resign method
