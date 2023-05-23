@@ -2,34 +2,34 @@
 
 require_relative '../move_checker'
 
-module Chess
-  # This class represents a generic chess piece for either (black or white) player.
-  class Piece
-    include MoveChecker
-    attr_accessor :location
-    attr_reader :color, :type, :symbol
+# This class represents a generic chess piece for either (black or white) player.
+class Piece
+  include MoveChecker
+  attr_accessor :location
+  attr_reader :color, :type, :symbol
 
-    def initialize(**opts)
-      @color = opts[:color]
-      @location = opts[:location]
-      @type = default_type
-      @moves = valid_moves
-    end
+  def initialize(**opts)
+    @color = opts[:color]
+    @location = opts[:location]
+    @type = default_type
+    @moves = valid_moves
 
-    def king?
-      @type == 'king'
-    end
+    post_initialize(opts)
+  end
 
-    private
+  def king?
+    @type == 'king'
+  end
 
-    def default_type
-      raise NotImplementedError
-    end
+  private
 
-    def valid_moves
-      raise NotImplementedError
-    end
+  def post_initialize; end
+
+  def default_type
+    raise NotImplementedError
+  end
+
+  def valid_moves
+    raise NotImplementedError
   end
 end
-
-# post_initialize(opts) to send opts to subclasses instead of expecting them to send to Piece?

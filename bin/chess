@@ -2,5 +2,5 @@
 
 require_relative '../lib/chess/runner'
 
-runner = Chess::Runner.new
+runner = Runner.new
 runner.run

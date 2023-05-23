@@ -2,6 +2,9 @@
 
 # A module to contain prompts and print commands.
 module UI
+  FILES = ['a' => 0, 'b' => 1, 'c' => 2, 'd' => 3, 'e' => 4, 'f' => 5, 'g' => 6, 'h' => 7].freeze
+  RANKS = [8 => 0, 7 => 1, 6 => 2, 5 => 3, 4 => 4, 3 => 5, 2 => 6, 1 => 7].freeze
+
   def print_board
     print "    0 1 2 3 4 5 6 7\n"
     print "    _ _ _ _ _ _ _ _\n"
@@ -37,6 +40,8 @@ module UI
     end
   end
 
+  def convert_input(input); end
+
   # def intro
     # puts <<~HEREDOC
       # Welcome to Chess!
@@ -54,5 +59,6 @@ module UI
 end
 
 # TODO: implement color/highlighting
+# TODO: implement traditional ranks and files
 # TODO: #save and #quit will go here with the #save method then calling Serializer
 # likely also a #resign method
