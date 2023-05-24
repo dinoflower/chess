@@ -30,13 +30,13 @@ class Board
   end
 
   def set_board
-    set_row(:black, 0)
-    set_row(:white, 7)
+    set_row('black', 0)
+    set_row('white', 7)
     set_pawns
   end
 
   def set_row(color, number)
-    grid[number] = [
+    @grid[number] = [
       Rook.new(color: color, location: [number, 0]),
       Knight.new(color: color, location: [number, 1]),
       Bishop.new(color: color, location: [number, 2]),

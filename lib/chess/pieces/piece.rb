@@ -11,10 +11,11 @@ class Piece
   def initialize(**opts)
     @color = opts[:color]
     @location = opts[:location]
-    @type = default_type
+    @type = piece_type
+    @symbol = piece_symbol
     @moves = valid_moves
 
-    post_initialize(opts)
+    post_initialize
   end
 
   def king?
@@ -25,7 +26,11 @@ class Piece
 
   def post_initialize; end
 
-  def default_type
+  def piece_type
+    raise NotImplementedError
+  end
+
+  def piece_symbol
     raise NotImplementedError
   end
 

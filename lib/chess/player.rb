@@ -16,6 +16,7 @@ class Player
     @board = opts[:board]
     @grid = opts[:grid]
     @game = opts[:game]
+    @current_piece = nil
   end
 
   def to_s
@@ -24,13 +25,14 @@ class Player
 
   def play_turn
     puts "#{@name}, your go."
-    current_piece = choose_piece
-    puts simplify_piece(current_piece).type.to_s
+    @current_piece = choose_piece
+    print_board
     target_space = choose_target
-    check_nil(current_piece, target_space)
+    check_nil(@current_piece, target_space)
     print_board
   end
 
+  # checks to see if player chose 1. a piece 2. of theirs
   def choose_piece
     loop do
       piece = [select_row, select_column]

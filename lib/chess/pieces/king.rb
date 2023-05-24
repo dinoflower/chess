@@ -5,9 +5,7 @@ require_relative 'piece'
 # The King piece type.
 class King < Piece
   VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
-  def post_initialize(opts)
-    @symbol = confirm_symbol(opts[:color])
-  end
+  def post_initialize; end
 
   def check_path(player, target, finish)
     avail_moves = check_moves
@@ -18,7 +16,7 @@ class King < Piece
 
   private
 
-  def default_type
+  def piece_type
     'king'
   end
 
@@ -26,7 +24,7 @@ class King < Piece
     VALID_MOVES
   end
 
-  def confirm_symbol(color)
-    color == 'white' ? '♔' : '♚'
+  def piece_symbol
+    '♚'
   end
 end

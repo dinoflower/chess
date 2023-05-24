@@ -16,7 +16,7 @@ module MoveChecker
   end
 
   def choose_target
-    puts 'Select your destination space.'
+    puts 'Select your destination space:'
     [select_row, select_column]
   end
 
@@ -27,12 +27,13 @@ module MoveChecker
     else
       @board.move_piece(start, finish)
     end
+    @current_piece = nil
   end
 
   def check(start, finish)
     piece = simplify_piece(start)
     target = simplify_piece(finish)
-    piece.check_path(self, target, finish)
+    piece.check_path(self, piece.location, target, finish)
   end
 
   def simplify_piece(array)
