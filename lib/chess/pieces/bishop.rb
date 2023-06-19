@@ -10,18 +10,7 @@ class Bishop < Piece
   # this method is definitely doing too much already - break it up
   def check_path(player, start, target, finish)
     avail_moves = check_moves
-    queue = [Bishop.new(color: player.color, location: start)]
-    until queue.empty?
-      current = queue.shift
-      return current if current.location == target
-
-      current.avail_moves.each do |move|
-        next unless square_valid?(move)
-
-        current.children << temp = Bishop.new(color: player_color, location: current.location)
-        queue << temp
-      end
-    end
+    build_tree
   end
 
   def square_valid?; end
@@ -40,3 +29,19 @@ class Bishop < Piece
     '♝'
   end
 end
+
+# okay so MAYBE the pieces do have to act as nodes
+# def build_tree(start, target) ?
+  # queue = [Bishop.new(color: player.color, location: start)]
+  # until queue.empty?
+    # current = queue.shift
+    # return current if current.location == target
+
+    # current.check_moves.each do |move|
+      # next unless square_empty?(move)
+
+      # current.children << temp = Bishop.new(self, move, current)
+      # queue << temp
+    # end
+  # end
+# end

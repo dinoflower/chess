@@ -17,6 +17,7 @@ class Player
     @grid = opts[:grid]
     @game = opts[:game]
     @current_piece = nil
+    @previous_piece = nil
   end
 
   def to_s
@@ -29,6 +30,7 @@ class Player
     print_board
     target_space = choose_target
     check_nil(@current_piece, target_space)
+    pass_turn
     print_board
   end
 
@@ -41,5 +43,12 @@ class Player
 
       puts 'Please choose one of YOUR pieces.'
     end
+  end
+
+  private
+
+  def pass_turn
+    @previous_piece = @current_piece
+    @current_piece = nil
   end
 end

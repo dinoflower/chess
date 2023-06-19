@@ -27,7 +27,6 @@ module MoveChecker
     else
       @board.move_piece(start, finish)
     end
-    @current_piece = nil
   end
 
   def check(start, finish)
@@ -38,5 +37,9 @@ module MoveChecker
 
   def simplify_piece(array)
     @grid[array[0]][array[1]]
+  end
+
+  def square_empty?(location)
+    @board[location[0]][location[1]].nil?
   end
 end
