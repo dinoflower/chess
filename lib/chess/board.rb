@@ -19,6 +19,7 @@ class Board
   def move_piece(start, target)
     piece = @grid[start[0]][start[1]]
     piece.location = target
+    piece.moved = true
     @grid[target[0]][target[1]] = piece
     @grid[start[0]][start[1]] = nil
   end

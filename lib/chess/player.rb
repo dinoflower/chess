@@ -31,12 +31,12 @@ class Player
     @current_piece = choose_piece
     print_board
     target_space = choose_target
-    check_nil(@current_piece, target_space)
+    check_nil(self, @current_piece, target_space)
     pass_turn
-    print_board
   end
 
   # checks to see if player chose 1. a piece 2. of theirs
+  # TODO: ask for column first
   def choose_piece
     loop do
       piece = [select_row, select_column]

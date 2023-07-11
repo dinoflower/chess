@@ -7,7 +7,13 @@ class Queen < Piece
   MOVESET = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
   def post_initialize; end
 
-  def check_path(player, target, finish); end
+  # but with recursion
+  def check_path(player, target, finish)
+    avail_moves = check_moves(@moves)
+    return unless avail_moves.any?(finish)
+
+    return finish if target.nil? || target.opposite?(player.color)
+  end
 
   private
 

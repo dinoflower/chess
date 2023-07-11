@@ -7,10 +7,12 @@ class Bishop < Piece
   MOVESET = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze # another loop/recursive method
   def post_initialize; end
 
-  # this method is definitely doing too much already - break it up
-  def check_path(player, start, target, finish)
-    avail_moves = check_moves
-    build_tree
+  # but with recursion
+  def check_path(player, target, finish)
+    avail_moves = check_moves(@moves)
+    return unless avail_moves.any?(finish)
+
+    return finish if target.nil? || target.opposite?(player.color)
   end
 
   def square_valid?; end

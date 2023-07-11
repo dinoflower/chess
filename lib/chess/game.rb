@@ -25,6 +25,7 @@ class Game
       change_players
     # end
     # declare_winner
+    print_board
   end
 
   def game_over?

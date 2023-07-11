@@ -20,8 +20,8 @@ module MoveChecker
     [select_row, select_column]
   end
 
-  def check_nil(start, finish)
-    if check(start, finish).nil?
+  def check_nil(player, start, finish)
+    if check(player, start, finish).nil?
       puts 'Please make a valid move.'
       play_turn
     else
@@ -29,10 +29,10 @@ module MoveChecker
     end
   end
 
-  def check(start, finish)
+  def check(player, start, finish)
     piece = simplify_piece(start)
     target = simplify_piece(finish)
-    piece.check_path(target, finish)
+    piece.check_path(player, target, finish)
   end
 
   def simplify_piece(array)

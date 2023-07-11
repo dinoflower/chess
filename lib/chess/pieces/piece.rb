@@ -5,7 +5,7 @@ require_relative '../move_checker'
 # This class represents a generic chess piece for either (black or white) player.
 class Piece
   include MoveChecker
-  attr_accessor :location
+  attr_accessor :location, :moved
   attr_reader :color, :type, :symbol
 
   def initialize(**opts)
@@ -14,6 +14,7 @@ class Piece
     @type = piece_type
     @symbol = piece_symbol
     @moves = moveset
+    @moved = false
 
     post_initialize
   end
