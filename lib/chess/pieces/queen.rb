@@ -4,7 +4,7 @@ require_relative 'piece'
 
 # The Queen piece type.
 class Queen < Piece
-  VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
+  MOVESET = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
   def post_initialize; end
 
   def check_path(player, target, finish); end
@@ -15,8 +15,8 @@ class Queen < Piece
     'queen'
   end
 
-  def valid_moves
-    VALID_MOVES
+  def moveset
+    MOVESET
   end
 
   def piece_symbol

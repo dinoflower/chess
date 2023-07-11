@@ -4,13 +4,16 @@ require_relative 'piece'
 
 # The Pawn subclass of Piece.
 class Pawn < Piece
-  VALID_MOVES = [[-1, 0]].freeze
-  def post_initialize; end
+  attr_reader :moved
 
-  # TODO: update to reflect pawn's capture and first move rules
-  # what about the arguments for the other type?
+  # TODO: add a way to update
+  def post_initialize
+    @moved = false
+  end
+
+  # TODO: check_moves will take valid_moves as an argument
   def check_path(target, finish)
-    avail_moves = check_moves
+    avail_moves = check_moves(@moves)
     return unless avail_moves.any?(finish)
 
     return finish if target.nil?
@@ -18,17 +21,28 @@ class Pawn < Piece
 
   private
 
-  # replace with checking for parent node? or even a 'moved' quality?
-  def on_start?
-    (@color == 'white' && @location[0] == 6) || (@color == 'black' && @location[0] == 1)
-  end
-
   def piece_type
     'pawn'
   end
 
+  def moveset
+    [regular_move, double_move]
+  end
+
   def valid_moves
-    VALID_MOVES
+    # find the valid_moves
+  end
+
+  def regular_move
+    @color == 'white' ? [-1, 0] : [1, 0]
+  end
+
+  def double_move
+    @color == 'white' ? [-2, 0] : [2, 0]
+  end
+
+  def valid_captures
+    @color == 'white' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
   end
 
   def piece_symbol

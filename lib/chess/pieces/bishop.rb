@@ -4,7 +4,7 @@ require_relative 'piece'
 
 # The Bishop piece type.
 class Bishop < Piece
-  VALID_MOVES = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze # another loop/recursive method
+  MOVESET = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze # another loop/recursive method
   def post_initialize; end
 
   # this method is definitely doing too much already - break it up
@@ -21,8 +21,8 @@ class Bishop < Piece
     'bishop'
   end
 
-  def valid_moves
-    VALID_MOVES
+  def moveset
+    MOVESET
   end
 
   def piece_symbol

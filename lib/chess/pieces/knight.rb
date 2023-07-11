@@ -4,7 +4,7 @@ require_relative 'piece'
 
 # The Knight piece type.
 class Knight < Piece
-  VALID_MOVES = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [-2, 1], [2, -1], [-2, -1]].freeze
+  MOVESET = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [-2, 1], [2, -1], [-2, -1]].freeze
   def post_initialize; end
 
   def check_path(player, target, finish)
@@ -20,8 +20,8 @@ class Knight < Piece
     'knight'
   end
 
-  def valid_moves
-    VALID_MOVES
+  def moveset
+    MOVESET
   end
 
   def piece_symbol

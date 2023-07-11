@@ -4,7 +4,7 @@ require_relative 'piece'
 
 # The King piece type.
 class King < Piece
-  VALID_MOVES = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
+  MOVESET = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
   def post_initialize; end
 
   def check_path(player, target, finish)
@@ -20,8 +20,8 @@ class King < Piece
     'king'
   end
 
-  def valid_moves
-    VALID_MOVES
+  def moveset
+    MOVESET
   end
 
   def piece_symbol

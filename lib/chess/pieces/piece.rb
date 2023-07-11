@@ -13,7 +13,7 @@ class Piece
     @location = opts[:location]
     @type = piece_type
     @symbol = piece_symbol
-    @moves = valid_moves
+    @moves = moveset
 
     post_initialize
   end
@@ -34,7 +34,7 @@ class Piece
     raise NotImplementedError
   end
 
-  def valid_moves
+  def moveset
     raise NotImplementedError
   end
 end

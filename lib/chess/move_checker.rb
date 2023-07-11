@@ -2,8 +2,8 @@
 
 # A module to contain piece and move validation.
 module MoveChecker
-  def check_moves
-    next_moves = @moves.map do |move|
+  def check_moves(moves)
+    next_moves = moves.map do |move|
       move.filter_map.with_index do |coord, index|
         coord + @location[index] unless (coord + @location[index]).negative? || (coord + @location[index]) > 7
       end
@@ -32,7 +32,7 @@ module MoveChecker
   def check(start, finish)
     piece = simplify_piece(start)
     target = simplify_piece(finish)
-    piece.check_path(self, piece.location, target, finish)
+    piece.check_path(target, finish)
   end
 
   def simplify_piece(array)

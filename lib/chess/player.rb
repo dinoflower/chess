@@ -3,11 +3,13 @@
 require_relative 'game'
 require_relative 'move_checker'
 require_relative 'ui'
+require_relative 'display'
 
 # This class represents a (black or white) chess player.
 class Player
   include MoveChecker
   include UI
+  include Display
   attr_reader :color
 
   def initialize(**opts)

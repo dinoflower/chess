@@ -3,10 +3,12 @@
 require_relative 'player'
 require_relative 'board'
 require_relative 'ui'
+require_relative 'display'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
   include UI
+  include Display
 
   def initialize(board: set_board, wh_player: nil, bl_player: nil)
     @board = board
