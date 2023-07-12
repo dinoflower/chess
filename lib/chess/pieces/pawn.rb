@@ -6,32 +6,24 @@ require_relative 'piece'
 class Pawn < Piece
   def post_initialize; end
 
-  # TODO: check_moves will take valid_moves as an argument
-  # TODO: break out another piece to check for captures
   def check_path(player, target, finish)
-    avail_moves = check_moves(@moves)
-    return unless avail_moves.any?(finish)
+    avail_moves = check_moves(valid_moves)
+    avail_captures = check_moves(valid_captures)
+    return unless avail_moves.any?(finish) || avail_captures.any?(finish)
 
-    return finish if target.nil? || target.opposite?(player.color) # placeholder: only applies if not capture
+    confirm_move(avail_moves, avail_captures, finish, target, player)
   end
 
   private
 
-  def piece_type
-    'pawn'
-  end
-
-  def moveset
-    [regular_move.flatten, double_move.flatten]
-  end
-
-  # probably don't want to handle captures in the same place
   def valid_moves
-    if @moved == true
-      [regular_move, valid_captures].flatten(1)
-    else
-      [regular_move, double_move, valid_captures].flatten(1)
-    end
+    @moved ? regular_move.flatten : [regular_move, double_move].flatten(1)
+  end
+
+  def confirm_move(moves, captures, finish, target, player)
+    return unless moves.any?(finish) && target.nil? || captures.any?(finish) && target.opposite?(player.color)
+
+    finish
   end
 
   def regular_move
@@ -44,6 +36,14 @@ class Pawn < Piece
 
   def valid_captures
     @color == 'white' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
+  end
+
+  def piece_type
+    'pawn'
+  end
+
+  def moveset
+    [regular_move.flatten, double_move.flatten]
   end
 
   def piece_symbol
