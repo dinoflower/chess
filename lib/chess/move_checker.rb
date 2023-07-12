@@ -15,11 +15,6 @@ module MoveChecker
     @color != player_color
   end
 
-  def choose_target
-    puts 'Select your destination space:'
-    [select_row, select_column]
-  end
-
   def check_nil(player, start, finish)
     if check(player, start, finish).nil?
       puts 'Please make a valid move.'

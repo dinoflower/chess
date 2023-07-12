@@ -37,7 +37,7 @@ module Display
 
     return 31 if space.location == @current_piece
 
-    space.color == 'white' ? 39 : 30
+    space.color == 'white' ? 97 : 30
   end
 
   def background_color(row_index, index)
@@ -59,8 +59,6 @@ module Display
 
       # Indicate the piece you would like to move by typing its location followed by the
       # location of your target square.
-
-      # White plays first.
 
     # HEREDOC
   # end

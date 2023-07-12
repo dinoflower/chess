@@ -27,7 +27,7 @@ class Player
   end
 
   def play_turn
-    puts "#{@name}, your go."
+    puts "#{@name}, your go. Choose a piece to move."
     @current_piece = choose_piece
     print_board
     target_space = choose_target
@@ -46,6 +46,13 @@ class Player
 
       puts 'Please choose one of YOUR pieces.'
     end
+  end
+
+  def choose_target
+    puts 'Select your destination space:'
+    column = select_column
+    row = select_row
+    [row, column]
   end
 
   private
