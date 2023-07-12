@@ -5,7 +5,7 @@ require_relative 'move_checker'
 require_relative 'ui'
 require_relative 'display'
 
-# This class represents a (black or white) chess player.
+# This class represents a human chess player.
 class Player
   include MoveChecker
   include UI
@@ -36,10 +36,11 @@ class Player
   end
 
   # checks to see if player chose 1. a piece 2. of theirs
-  # TODO: ask for column first
   def choose_piece
     loop do
-      piece = [select_row, select_column]
+      column = select_column
+      row = select_row
+      piece = [row, column]
       chosen_piece = piece unless simplify_piece(piece).nil? || simplify_piece(piece).color != @color
       return chosen_piece if chosen_piece
 
