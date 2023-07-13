@@ -20,6 +20,7 @@ class Player
     @game = opts[:game]
     @current_piece = nil
     @previous_piece = nil
+    # @castled = false
   end
 
   def to_s
@@ -31,7 +32,7 @@ class Player
     @current_piece = choose_piece
     print_board
     target_space = choose_target
-    check_nil(self, @current_piece, target_space)
+    check_valid(self, @current_piece, target_space)
     pass_turn
   end
 

@@ -62,4 +62,6 @@ module Display
 
     # HEREDOC
   # end
+
+  # def declare_winner; end
 end

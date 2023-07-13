@@ -2,6 +2,24 @@
 
 # A module to contain piece and move validation.
 module MoveChecker
+  # TODO: remove #move_piece call - call elsewhere
+  def check_valid(player, start, finish)
+    if check(player, start, finish).nil?
+      puts 'Please make a valid move.'
+      play_turn
+    else
+      @board.move_piece(start, finish)
+    end
+  end
+
+  # converts location arrays to pieces on the board to call #check_path
+  def check(player, start, finish)
+    piece = simplify_piece(start)
+    target = simplify_piece(finish)
+    piece.check_path(player, target, finish)
+  end
+
+  # returns an array of all spaces on the board one "step" from current location
   def check_moves(moves)
     next_moves = moves.map do |move|
       move.filter_map.with_index do |coord, index|
@@ -13,21 +31,6 @@ module MoveChecker
 
   def opposite?(player_color)
     @color != player_color
-  end
-
-  def check_nil(player, start, finish)
-    if check(player, start, finish).nil?
-      puts 'Please make a valid move.'
-      play_turn
-    else
-      @board.move_piece(start, finish)
-    end
-  end
-
-  def check(player, start, finish)
-    piece = simplify_piece(start)
-    target = simplify_piece(finish)
-    piece.check_path(player, target, finish)
   end
 
   def simplify_piece(array)

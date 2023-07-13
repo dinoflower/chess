@@ -50,3 +50,5 @@ class Pawn < Piece
     '♟'
   end
 end
+
+# TODO: implement en passant

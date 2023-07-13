@@ -7,17 +7,20 @@ class Bishop < Piece
   MOVESET = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze # another loop/recursive method
   def post_initialize; end
 
-  # but with recursion
   def check_path(player, target, finish)
-    avail_moves = check_moves(@moves)
-    return unless avail_moves.any?(finish)
+    # move_queue = check_moves(@moves)
+    # go through queue with #shift using #check_moves to stay on board (seems redundant)
+    # check each space while passing to make sure it's empty or the target(?)
 
     return finish if target.nil? || target.opposite?(player.color)
   end
 
-  def square_valid?; end
-
   private
+
+  # increment a temp location by moving the location value along one move path?
+  # def shift(move, temp_location)
+    # [move(0) + temp_location(0), move(1) + temp_location(1)]
+  # end
 
   def piece_type
     'bishop'
@@ -32,7 +35,7 @@ class Bishop < Piece
   end
 end
 
-# okay so MAYBE the pieces do have to act as nodes
+# from previous project, for reference
 # def build_tree(start, target) ?
   # queue = [Bishop.new(color: player.color, location: start)]
   # until queue.empty?
@@ -47,3 +50,8 @@ end
     # end
   # end
 # end
+
+# do something like call #check_moves and add the results to a queue
+# if the results meet the same criteria as in #check_path
+# then check the results from the queue
+# but not any that aren't along the correct path
