@@ -10,7 +10,7 @@ class Player
   include MoveChecker
   include UI
   include Display
-  attr_reader :color
+  attr_reader :color, :name
 
   def initialize(**opts)
     @color = opts[:color]
@@ -27,8 +27,8 @@ class Player
     "#{@color.capitalize}, #{@name}"
   end
 
+  # TODO: implement check for... check and checkmate
   def play_turn
-    puts "#{@name}, your go. Choose a piece to move."
     @current_piece = choose_piece
     print_board
     target_space = choose_target
@@ -45,7 +45,7 @@ class Player
       chosen_piece = piece unless simplify_piece(piece).nil? || simplify_piece(piece).color != @color
       return chosen_piece if chosen_piece
 
-      puts 'Please choose one of YOUR pieces.'
+      puts 'Please choose one of your pieces to move.'
     end
   end
 

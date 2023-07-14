@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# A module to contain piece and move validation.
+# A module to contain piece and move validation, along with helper methods.
 module MoveChecker
-  # TODO: remove #move_piece call - call elsewhere
+  # TODO: remove #move_piece call - call in #play_turn maybe?
   def check_valid(player, start, finish)
     if check(player, start, finish).nil?
       puts 'Please make a valid move.'
@@ -29,6 +29,33 @@ module MoveChecker
     next_moves.keep_if { |move| move.length == 2 }
   end
 
+  # returns an array of all legal multi-step moves on the board
+  def check_long_moves
+    @moves.map do |move|
+      avail_moves = []
+      temp = shift(move, @location)
+      until ally(temp) || off_board(temp)
+        avail_moves << shift(move, temp)
+        temp = shift(move, temp)
+      end
+      avail_moves
+    end
+  end
+
+  def shift(move, coords)
+    [move[0] + coords[0], move[1] + coords[1]]
+  end
+
+  def ally(coords)
+    return false if square_empty?(location)
+
+    simplify_piece(coords).color == @color
+  end
+
+  def off_board(temp_location)
+    temp_location[0].negative? || temp_location > 7
+  end
+
   def opposite?(player_color)
     @color != player_color
   end
@@ -41,3 +68,6 @@ module MoveChecker
     @board[location[0]][location[1]].nil?
   end
 end
+
+# TODO: write a method that can check the possible moves of all pieces of the current player
+# in order to see if the opposite player's king is threatened

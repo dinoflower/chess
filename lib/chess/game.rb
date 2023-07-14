@@ -20,16 +20,19 @@ class Game
 
   def play_game
     start_game
-    # until game_over?
+    until game_over?
+      print_board
+      puts "#{@current_player.name}, your go. Choose a piece to move."
       @current_player.play_turn
       change_players
-    # end
+    end
     # declare_winner
-    print_board
   end
 
+  # method will be private, currently public for testing purposes
   def game_over?
-    return false unless @board.checkmate?(opponent.color)
+    # unless @board.checkmate?(opponent.color)
+    false
   end
 
   private
@@ -38,7 +41,6 @@ class Game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = [@wh_player, @bl_player].sample
-    print_board
   end
 
   def change_players
