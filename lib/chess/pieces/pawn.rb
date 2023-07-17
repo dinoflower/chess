@@ -17,7 +17,7 @@ class Pawn < Piece
   private
 
   def valid_moves
-    @moved ? regular_move.flatten : [regular_move, double_move].flatten(1)
+    @moved ? regular_move : [regular_move, double_move].flatten(1)
   end
 
   def confirm_move(moves, captures, finish, target, player)

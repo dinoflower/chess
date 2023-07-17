@@ -22,7 +22,6 @@ module MoveChecker
   end
 
   # returns an array of all spaces on the board one "step" from current location
-  # filter_map doesn't work with one move [x, y] because it's being called on just x
   def check_moves(moves)
     next_moves = moves.map do |move|
       move.filter_map.with_index do |coord, index|
