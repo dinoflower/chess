@@ -40,7 +40,7 @@ class Game
   def start_game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
-    @current_player = [@wh_player, @bl_player].sample
+    @current_player = @wh_player
   end
 
   def change_players

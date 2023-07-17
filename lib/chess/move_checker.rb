@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pry-byebug'
+
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
   # TODO: remove #move_piece call - call in #play_turn maybe?
@@ -20,6 +22,7 @@ module MoveChecker
   end
 
   # returns an array of all spaces on the board one "step" from current location
+  # filter_map doesn't work with one move [x, y] because it's being called on just x
   def check_moves(moves)
     next_moves = moves.map do |move|
       move.filter_map.with_index do |coord, index|
@@ -31,15 +34,15 @@ module MoveChecker
 
   # returns an array of all legal multi-step moves on the board
   def check_long_moves
-    @moves.map do |move|
-      avail_moves = []
+    avail_moves = []
+    @moves.each do |move|
       temp = shift(move, @location)
-      until ally(temp) || off_board(temp)
-        avail_moves << shift(move, temp)
+      until off_board(temp) || ally(temp)
+        avail_moves << temp
         temp = shift(move, temp)
       end
-      avail_moves
     end
+    avail_moves
   end
 
   def shift(move, coords)
@@ -47,13 +50,13 @@ module MoveChecker
   end
 
   def ally(coords)
-    return false if square_empty?(location)
+    return false if simplify_piece(coords).nil?
 
     simplify_piece(coords).color == @color
   end
 
   def off_board(temp_location)
-    temp_location[0].negative? || temp_location > 7
+    temp_location.any? { |coord| coord.negative? || coord > 7 }
   end
 
   def opposite?(player_color)
@@ -62,10 +65,6 @@ module MoveChecker
 
   def simplify_piece(array)
     @grid[array[0]][array[1]]
-  end
-
-  def square_empty?(location)
-    @board[location[0]][location[1]].nil?
   end
 end
 

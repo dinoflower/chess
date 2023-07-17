@@ -39,4 +39,5 @@ module UI
 end
 
 # TODO: #save and #quit will go here with the #save method then calling Serializer
+# possibly #undo as well
 # likely also a #resign method

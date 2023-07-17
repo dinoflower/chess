@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../move_checker'
+require_relative '../board'
 
 # This class represents a generic chess piece for either (black or white) player.
 class Piece
@@ -11,6 +12,7 @@ class Piece
   def initialize(**opts)
     @color = opts[:color]
     @location = opts[:location]
+    @grid = opts[:grid]
     @type = piece_type
     @symbol = piece_symbol
     @moves = moveset
