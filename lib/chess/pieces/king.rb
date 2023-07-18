@@ -27,6 +27,4 @@ class King < Piece
   def piece_symbol
     '♚'
   end
-
-  # def in_check?; end
 end

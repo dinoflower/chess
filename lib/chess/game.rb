@@ -4,11 +4,13 @@ require_relative 'player'
 require_relative 'board'
 require_relative 'ui'
 require_relative 'display'
+require_relative 'move_checker'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
   include UI
   include Display
+  include MoveChecker
 
   def initialize(board: set_board, wh_player: nil, bl_player: nil)
     @board = board
@@ -21,9 +23,7 @@ class Game
   def play_game
     start_game
     until game_over?
-      print_board
-      puts "#{@current_player.name}, your go. Choose a piece to move."
-      @current_player.play_turn
+      game_turn
       change_players
     end
     # declare_winner
@@ -41,6 +41,12 @@ class Game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = @wh_player
+  end
+
+  def game_turn
+    print_board
+    puts "#{@current_player.name}, your go. Choose a piece to move."
+    @current_player.play_turn
   end
 
   def change_players

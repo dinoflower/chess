@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
   # TODO: remove #move_piece call - call in #play_turn maybe?
@@ -66,6 +64,3 @@ module MoveChecker
     @grid[array[0]][array[1]]
   end
 end
-
-# TODO: write a method that can check the possible moves of all pieces of the current player
-# in order to see if the opposite player's king is threatened

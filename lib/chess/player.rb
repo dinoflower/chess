@@ -4,13 +4,15 @@ require_relative 'game'
 require_relative 'move_checker'
 require_relative 'ui'
 require_relative 'display'
+require_relative 'piece_finder'
 
 # This class represents a human chess player.
 class Player
   include MoveChecker
   include UI
   include Display
-  attr_reader :color, :name
+  include PieceFinder
+  attr_reader :color, :name, :in_check
 
   def initialize(**opts)
     @color = opts[:color]
@@ -33,6 +35,7 @@ class Player
     print_board
     target_space = choose_target
     check_valid(self, @current_piece, target_space)
+    puts warning if determine_check
     pass_turn
   end
 
@@ -56,7 +59,21 @@ class Player
     [row, column]
   end
 
+  # determine whether opponent king is in check
+  def determine_check
+    piece_list = find_player_pieces(@color)
+    king = find_king(opp_color)
+    piece_list.each do |piece|
+      return true unless check(self, piece.location, king).nil?
+    end
+    false
+  end
+
   private
+
+  def opp_color
+    @color == 'white' ? 'black' : 'white'
+  end
 
   def pass_turn
     @previous_piece = @current_piece

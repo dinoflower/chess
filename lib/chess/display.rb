@@ -2,6 +2,10 @@
 
 # A module to print a tidy board and messages.
 module Display
+  def warning
+    puts 'Warning! King in check!'
+  end
+
   def print_board
     print "   a  b  c  d  e  f  g  h\n"
     print_rows
