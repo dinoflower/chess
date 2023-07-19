@@ -3,7 +3,8 @@
 # A module to print a tidy board and messages.
 module Display
   def warning
-    puts 'Warning! King in check!'
+    message = 'Warning! King in check!'
+    puts "\e[31m#{message}\e[0m"
   end
 
   def print_board

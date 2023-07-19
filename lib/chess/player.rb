@@ -29,7 +29,7 @@ class Player
     "#{@color.capitalize}, #{@name}"
   end
 
-  # TODO: implement check for... check and checkmate
+  # TODO: implement checkmate
   def play_turn
     @current_piece = choose_piece
     print_board

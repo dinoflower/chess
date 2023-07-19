@@ -17,7 +17,7 @@ module PieceFinder
   end
 
   def find_king(color)
-    king = find_player_pieces(color).select { |piece| piece.king? }
+    king = find_player_pieces(color).select(&:king?)
     king.first.location
   end
 end
