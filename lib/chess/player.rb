@@ -12,7 +12,8 @@ class Player
   include UI
   include Display
   include PieceFinder
-  attr_reader :color, :name, :in_check
+  attr_accessor :in_check
+  attr_reader :color, :name
 
   def initialize(**opts)
     @color = opts[:color]
@@ -22,6 +23,7 @@ class Player
     @game = opts[:game]
     @current_piece = nil
     @previous_piece = nil
+    @in_check = false
     # @castled = false
   end
 
@@ -35,7 +37,6 @@ class Player
     print_board
     target_space = choose_target
     check_valid(self, @current_piece, target_space)
-    puts warning if determine_check
     pass_turn
   end
 

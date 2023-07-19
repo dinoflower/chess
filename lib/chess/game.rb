@@ -47,6 +47,7 @@ class Game
     print_board
     puts "#{@current_player.name}, your go. Choose a piece to move."
     @current_player.play_turn
+    player_in_check
   end
 
   def change_players
@@ -63,5 +64,12 @@ class Game
 
   def set_board
     Board.new
+  end
+
+  def player_in_check
+    return unless @current_player.determine_check
+
+    opponent.in_check = true
+    puts warning
   end
 end
