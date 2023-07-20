@@ -14,6 +14,15 @@ class Pawn < Piece
     confirm_move(avail_moves, avail_captures, finish, target, player)
   end
 
+  def check_moves(moves)
+    next_moves = moves.map do |move|
+      move.filter_map.with_index do |coord, index|
+        coord + @location[index] unless (coord + @location[index]).negative? || (coord + @location[index]) > 7
+      end
+    end
+    next_moves.keep_if { |move| move.length == 2 }
+  end
+
   private
 
   def valid_moves

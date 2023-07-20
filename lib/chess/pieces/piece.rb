@@ -25,6 +25,10 @@ class Piece
     @type == 'king'
   end
 
+  def check_moves(moves)
+    raise NotImplementedError
+  end
+
   private
 
   def post_initialize; end

@@ -31,7 +31,8 @@ class Game
 
   # method will be private, currently public for testing purposes
   def game_over?
-    # unless @board.checkmate?(opponent.color)
+    # return false unless @current_player.in_check
+    # return true if opponent.checkmated?
     false
   end
 
@@ -67,9 +68,11 @@ class Game
   end
 
   def player_in_check
-    return unless @current_player.determine_check
-
-    opponent.in_check = true
-    puts warning
+    if @current_player.checked_opp?
+      opponent.in_check = true
+      puts warning
+    else
+      opponent.in_check = false
+    end
   end
 end

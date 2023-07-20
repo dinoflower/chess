@@ -31,7 +31,6 @@ class Player
     "#{@color.capitalize}, #{@name}"
   end
 
-  # TODO: implement checkmate
   def play_turn
     @current_piece = choose_piece
     print_board
@@ -61,13 +60,20 @@ class Player
   end
 
   # determine whether opponent king is in check
-  def determine_check
+  def checked_opp?
     piece_list = find_player_pieces(@color)
     king = find_king(opp_color)
     piece_list.each do |piece|
-      return true unless check(self, piece.location, king).nil?
+      return true unless check_piece(self, piece.location, king).nil?
     end
     false
+  end
+
+  # determine whether player's king has been checkmated
+  def checkmated?
+    # piece_list = find_player_pieces(@color)
+    # piece_list.each { |piece| piece.check_moves(piece.moves) }
+    # tidy that list and check those moves to see if the king would be in check still
   end
 
   private
