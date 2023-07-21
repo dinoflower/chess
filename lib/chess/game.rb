@@ -32,7 +32,7 @@ class Game
   # method will be private, currently public for testing purposes
   def game_over?
     # return false unless @current_player.in_check
-    # return true if opponent.checkmated?
+    # return true if @current_player.mated?
     false
   end
 
@@ -68,7 +68,7 @@ class Game
   end
 
   def player_in_check
-    if @current_player.checked_opp?
+    if @current_player.checked?(@current_player.color, opponent.color)
       opponent.in_check = true
       puts warning
     else
@@ -76,3 +76,6 @@ class Game
     end
   end
 end
+
+# TODO: implement save and load
+# TODO: implement stalemate

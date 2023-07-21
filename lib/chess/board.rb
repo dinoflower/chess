@@ -13,18 +13,44 @@ class Board
 
   def initialize(grid: generate_board)
     @grid = grid
+    @previous_pos = nil
+    @current_pos = nil
     set_board
   end
 
-  def move_piece(start, target)
+  def move_piece
+    piece = @grid[@current_pos[0]][@current_pos[1]]
+    piece.moved = true
+    clear_positions
+  end
+
+  def test_move(start, target)
+    set_positions(start, target)
     piece = @grid[start[0]][start[1]]
     piece.location = target
-    piece.moved = true
     @grid[target[0]][target[1]] = piece
     @grid[start[0]][start[1]] = nil
   end
 
+  def reset_move
+    piece = @grid[@current_pos[0]][@current_pos[1]]
+    piece.location = @previous_pos
+    @grid[@previous_pos[0]][@previous_pos[1]] = piece
+    @grid[@current_pos[0]][@current_pos[1]] = nil
+    clear_positions
+  end
+
   private
+
+  def set_positions(start, target)
+    @previous_pos = start
+    @current_pos = target
+  end
+
+  def clear_positions
+    @previous_pos = nil
+    @current_pos = nil
+  end
 
   def generate_board
     Array.new(8) { Array.new(8) }

@@ -6,12 +6,12 @@ require_relative 'piece'
 class Pawn < Piece
   def post_initialize; end
 
-  def check_path(player, target, finish)
+  def check_path(color, target, finish)
     avail_moves = check_moves(valid_moves)
     avail_captures = check_moves(valid_captures)
     return unless avail_moves.any?(finish) || avail_captures.any?(finish)
 
-    confirm_move(avail_moves, avail_captures, finish, target, player)
+    confirm_move(avail_moves, avail_captures, finish, target, color)
   end
 
   def check_moves(moves)
@@ -29,8 +29,8 @@ class Pawn < Piece
     @moved ? regular_move : [regular_move, double_move].flatten(1)
   end
 
-  def confirm_move(moves, captures, finish, target, player)
-    return unless moves.any?(finish) && target.nil? || captures.any?(finish) && target.opposite?(player.color)
+  def confirm_move(moves, captures, finish, target, color)
+    return unless moves.any?(finish) && target.nil? || captures.any?(finish) && target.opposite?(color)
 
     finish
   end

@@ -59,21 +59,20 @@ class Player
     [row, column]
   end
 
-  # determine whether opponent king is in check
-  def checked_opp?
-    piece_list = find_player_pieces(@color)
-    king = find_king(opp_color)
+  # determine whether target king is in check
+  def checked?(color, target_color, piece_list = find_player_pieces(color))
+    king = find_king(target_color)
     piece_list.each do |piece|
-      return true unless check_piece(self, piece.location, king).nil?
+      return true unless check_piece(color, piece.location, king).nil?
     end
     false
   end
 
   # determine whether player's king has been checkmated
-  def checkmated?
-    # piece_list = find_player_pieces(@color)
-    # piece_list.each { |piece| piece.check_moves(piece.moves) }
-    # tidy that list and check those moves to see if the king would be in check still
+  def mated?
+    # pieces = find_player_pieces(@color)
+    # piece_list = pieces.each { |piece| piece.check_moves(piece.moves) }
+    # king_into_check?(piece_list)
   end
 
   private

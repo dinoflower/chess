@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 # A module to contain the logic for finding pieces of a given color or type.
 module PieceFinder
   def find_player_pieces(color)
