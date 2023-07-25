@@ -35,7 +35,7 @@ class Player
     @current_piece = choose_piece
     print_board
     target_space = choose_target
-    check_valid(self, @current_piece, target_space)
+    check_valid(@color, @current_piece, target_space)
     pass_turn
   end
 
@@ -72,7 +72,9 @@ class Player
   def mated?
     # pieces = find_player_pieces(@color)
     # piece_list = pieces.each { |piece| piece.check_moves(piece.moves) }
-    # king_into_check?(piece_list)
+    # rework that to give us a list of pieces (or their locations?) and the locations they can move to
+    # then go through and test king_into_check...
+    # ...on each piece's current location and possible end location
   end
 
   private
