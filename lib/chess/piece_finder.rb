@@ -6,9 +6,7 @@ module PieceFinder
     pieces = []
     @grid.each do |row|
       row.each do |piece|
-        unless piece.nil?
-          pieces << piece if piece.color == color
-        end
+        pieces << piece unless piece.nil? || piece.color != color
       end
     end
     pieces

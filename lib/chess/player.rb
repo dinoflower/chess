@@ -71,10 +71,14 @@ class Player
   # determine whether player's king has been checkmated
   def mated?
     # pieces = find_player_pieces(@color)
-    # piece_list = pieces.each { |piece| piece.check_moves(piece.moves) }
-    # rework that to give us a list of pieces (or their locations?) and the locations they can move to
-    # then go through and test king_into_check...
-    # ...on each piece's current location and possible end location
+    # piece_list = {}
+    # pieces.each do |piece|
+      # piece_list[piece.location] = piece.check_moves(piece.moves)
+    # end
+    # piece_list.each do |piece, moves|
+      # moves.each do |move|
+      # return true unless !king_into_check?(piece, move)
+    # end
   end
 
   private
