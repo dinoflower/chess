@@ -18,10 +18,11 @@ class Rook < Piece
     avail_moves = []
     moves.each do |move|
       temp = shift(move, @location)
-      until off_board(temp) || ally(temp)
+      until off_board(temp) || occupied(temp)
         avail_moves << temp
         temp = shift(move, temp)
       end
+      avail_moves << temp unless off_board(temp) || ally(temp)
     end
     avail_moves
   end

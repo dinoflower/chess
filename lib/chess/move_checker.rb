@@ -7,7 +7,6 @@ module MoveChecker
     if check_piece(color, start, finish).nil?
       puts 'Please make a valid move.'
       play_turn
-    # this test isn't working in all situations e.g. bishop e6e7
     elsif king_into_check?(start, finish)
       puts 'Illegal move: The king would be in check.'
       @board.reset_move
@@ -31,6 +30,12 @@ module MoveChecker
 
   def shift(move, coords)
     [move[0] + coords[0], move[1] + coords[1]]
+  end
+
+  def occupied(coords)
+    return false if simplify_piece(coords).nil?
+
+    true
   end
 
   def ally(coords)
