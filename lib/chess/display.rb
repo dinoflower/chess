@@ -68,5 +68,7 @@ module Display
     # HEREDOC
   # end
 
-  # def declare_winner; end
+  def declare_winner
+    "Congratulations, #{opponent}! You've checkmated #{@current_player}'s king!"
+  end
 end

@@ -5,6 +5,7 @@ require_relative 'move_checker'
 require_relative 'ui'
 require_relative 'display'
 require_relative 'piece_finder'
+require 'pry-byebug'
 
 # This class represents a human chess player.
 class Player
@@ -70,15 +71,12 @@ class Player
 
   # determine whether player's king has been checkmated
   def mated?
-    # pieces = find_player_pieces(@color)
-    # piece_list = {}
-    # pieces.each do |piece|
-      # piece_list[piece.location] = piece.check_moves(piece.moves)
-    # end
-    # piece_list.each do |piece, moves|
-      # moves.each do |move|
-      # return true unless !king_into_check?(piece, move)
-    # end
+    piece_list = all_next_moves(find_player_pieces(@color))
+    moves = move_array(piece_list)
+    # see if all possible plays would put the king into check?
+    moves.all? do |start, target|
+      king_into_check?(start, target)
+    end
   end
 
   private

@@ -18,18 +18,16 @@ class Board
     set_board
   end
 
-  def move_piece
-    piece = @grid[@current_pos[0]][@current_pos[1]]
-    piece.moved = true
-    clear_positions
-  end
-
-  def test_move(start, target)
-    set_positions(start, target)
+  def move_piece(start, target)
     piece = @grid[start[0]][start[1]]
     piece.location = target
     @grid[target[0]][target[1]] = piece
     @grid[start[0]][start[1]] = nil
+  end
+
+  def test_move(start, target)
+    set_positions(start, target)
+    move_piece(start, target)
   end
 
   def reset_move
@@ -38,6 +36,12 @@ class Board
     @grid[@previous_pos[0]][@previous_pos[1]] = piece
     @grid[@current_pos[0]][@current_pos[1]] = nil
     clear_positions
+  end
+
+  def make_play(start, target)
+    piece = @grid[start[0]][start[1]]
+    piece.moved = true
+    move_piece(start, target)
   end
 
   private

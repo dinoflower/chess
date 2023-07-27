@@ -26,13 +26,14 @@ class Game
       game_turn
       change_players
     end
-    # declare_winner
+    declare_winner
   end
 
   # method will be private, currently public for testing purposes
   def game_over?
-    # return false unless @current_player.in_check
-    # return true if @current_player.mated?
+    return false unless @current_player.in_check
+    return true if @current_player.mated?
+
     false
   end
 

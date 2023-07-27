@@ -7,7 +7,7 @@ require_relative '../board'
 class Piece
   include MoveChecker
   attr_accessor :location, :moved
-  attr_reader :color, :type, :symbol
+  attr_reader :color, :type, :symbol, :moves
 
   def initialize(**opts)
     @color = opts[:color]
