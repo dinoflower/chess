@@ -6,6 +6,7 @@ require_relative 'pieces/knight'
 require_relative 'pieces/pawn'
 require_relative 'pieces/queen'
 require_relative 'pieces/rook'
+require 'pry-byebug'
 
 # This class represents a standard chess board.
 class Board
@@ -18,43 +19,31 @@ class Board
     set_board
   end
 
-  def move_piece(start, target)
-    piece = @grid[start[0]][start[1]]
-    piece.location = target
-    @grid[target[0]][target[1]] = piece
-    @grid[start[0]][start[1]] = nil
-  end
-
-  def test_move(start, target)
-    set_positions(start, target)
-    move_piece(start, target)
-  end
-
-  def reset_move
-    piece = @grid[@current_pos[0]][@current_pos[1]]
-    piece.location = @previous_pos
-    @grid[@previous_pos[0]][@previous_pos[1]] = piece
-    @grid[@current_pos[0]][@current_pos[1]] = nil
-    clear_positions
-  end
-
   def make_play(start, target)
     piece = @grid[start[0]][start[1]]
     piece.moved = true
     move_piece(start, target)
   end
 
+  def test_move(start, target)
+    move_piece(start, target)
+  end
+
+  def move_piece(start, target)
+    piece = @grid[start[0]][start[1]]
+    piece.location = target
+    @grid[target[0]][target[1]] = @grid[start[0]][start[1]]
+    @grid[start[0]][start[1]] = nil
+  end
+
+  def reset_move(start, target)
+    piece = @grid[target[0]][target[1]]
+    piece.location = start
+    @grid[start[0]][start[1]] = @grid[target[0]][target[1]]
+    @grid[target[0]][target[1]] = nil
+  end
+
   private
-
-  def set_positions(start, target)
-    @previous_pos = start
-    @current_pos = target
-  end
-
-  def clear_positions
-    @previous_pos = nil
-    @current_pos = nil
-  end
 
   def generate_board
     Array.new(8) { Array.new(8) }

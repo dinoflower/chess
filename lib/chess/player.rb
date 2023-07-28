@@ -73,7 +73,6 @@ class Player
   def mated?
     piece_list = all_next_moves(find_player_pieces(@color))
     moves = move_array(piece_list)
-    # see if all possible plays would put the king into check?
     moves.all? do |start, target|
       king_into_check?(start, target)
     end

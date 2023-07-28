@@ -15,18 +15,18 @@ module MoveChecker
     end
   end
 
-  def king_into_check?(start, finish)
-    @board.test_move(start, finish)
-    checked?(opp_color, @color)
-    # return value doesn't work now duh
-    @board.reset_move
-  end
-
   # converts location arrays to pieces on the board to call #check_path
   def check_piece(color, start, finish)
     piece = simplify_piece(start)
     target = simplify_piece(finish)
     piece.check_path(color, target, finish)
+  end
+
+  def king_into_check?(start, finish)
+    @board.test_move(start, finish)
+    result = checked?(opp_color, @color)
+    @board.reset_move(start, finish)
+    result
   end
 
   # creates hash of current locations with arr of possible next moves as value

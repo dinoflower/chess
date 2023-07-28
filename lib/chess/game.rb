@@ -11,13 +11,14 @@ class Game
   include UI
   include Display
   include MoveChecker
+  attr_reader :current_player
 
   def initialize(board: set_board, wh_player: nil, bl_player: nil)
     @board = board
     @grid = board.grid
     @wh_player = wh_player
     @bl_player = bl_player
-    @current_player = nil
+    @current_player = wh_player
   end
 
   def play_game
@@ -32,9 +33,8 @@ class Game
   # method will be private, currently public for testing purposes
   def game_over?
     return false unless @current_player.in_check
-    return true if @current_player.mated?
 
-    false
+    @current_player.mated?
   end
 
   private
