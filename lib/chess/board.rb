@@ -32,14 +32,14 @@ class Board
   def move_piece(start, target)
     piece = @grid[start[0]][start[1]]
     piece.location = target
-    @grid[target[0]][target[1]] = @grid[start[0]][start[1]]
+    @grid[target[0]][target[1]] = piece
     @grid[start[0]][start[1]] = nil
   end
 
   def reset_move(start, target)
     piece = @grid[target[0]][target[1]]
     piece.location = start
-    @grid[start[0]][start[1]] = @grid[target[0]][target[1]]
+    @grid[start[0]][start[1]] = piece
     @grid[target[0]][target[1]] = nil
   end
 

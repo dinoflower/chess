@@ -63,10 +63,7 @@ class Player
   # determine whether target king is in check
   def checked?(color, target_color, piece_list = find_player_pieces(color))
     king = find_king(target_color)
-    piece_list.each do |piece|
-      return true unless check_piece(color, piece.location, king).nil?
-    end
-    false
+    piece_list.any? { |piece| check_piece(color, piece.location, king) }
   end
 
   # determine whether player's king has been checkmated

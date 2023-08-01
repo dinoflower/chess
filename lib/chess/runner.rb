@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'game'
-
 # The file in bin creates an instance of this class to run the game.
 class Runner
   def initialize

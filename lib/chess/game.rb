@@ -5,6 +5,7 @@ require_relative 'board'
 require_relative 'ui'
 require_relative 'display'
 require_relative 'move_checker'
+require 'pry-byebug'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
@@ -18,7 +19,7 @@ class Game
     @grid = board.grid
     @wh_player = wh_player
     @bl_player = bl_player
-    @current_player = wh_player
+    @current_player = nil
   end
 
   def play_game
@@ -32,6 +33,9 @@ class Game
 
   # method will be private, currently public for testing purposes
   def game_over?
+    player_in_check
+    binding.pry
+    # as of here, queen doesn't disappear and @current_player is in check
     return false unless @current_player.in_check
 
     @current_player.mated?
@@ -49,7 +53,6 @@ class Game
     print_board
     puts "#{@current_player.name}, your go. Choose a piece to move."
     @current_player.play_turn
-    player_in_check
   end
 
   def change_players
@@ -69,11 +72,11 @@ class Game
   end
 
   def player_in_check
-    if @current_player.checked?(@current_player.color, opponent.color)
-      opponent.in_check = true
+    if @current_player.checked?(opponent.color, @current_player.color)
+      @current_player.in_check = true
       puts warning
     else
-      opponent.in_check = false
+      @current_player.in_check = false
     end
   end
 end
