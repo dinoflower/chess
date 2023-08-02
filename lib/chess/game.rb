@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'player'
-require_relative 'board'
-require_relative 'ui'
 require_relative 'display'
-require_relative 'move_checker'
+require_relative 'ui'
 require 'pry-byebug'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
   include UI
   include Display
-  include MoveChecker
   attr_reader :current_player
 
   def initialize(board: set_board, wh_player: nil, bl_player: nil)
@@ -24,8 +20,10 @@ class Game
 
   def play_game
     start_game
-    until game_over?
+    loop do
       game_turn
+      break if game_over?
+
       change_players
     end
     declare_winner
@@ -34,11 +32,10 @@ class Game
   # method will be private, currently public for testing purposes
   def game_over?
     player_in_check
-    binding.pry
-    # as of here, queen doesn't disappear and @current_player is in check
-    return false unless @current_player.in_check
+    return false unless opponent.in_check
 
-    @current_player.mated?
+    puts warning # reconfig later since this is redundant if checkmate
+    opponent.mated?
   end
 
   private
@@ -72,12 +69,11 @@ class Game
   end
 
   def player_in_check
-    if @current_player.checked?(opponent.color, @current_player.color)
-      @current_player.in_check = true
-      puts warning
-    else
-      @current_player.in_check = false
-    end
+    opponent.in_check = if opponent.checked?(@current_player.color, opponent.color)
+                          true
+                        else
+                          false
+                        end
   end
 end
 

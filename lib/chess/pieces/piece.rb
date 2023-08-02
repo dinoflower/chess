@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../move_checker'
-require_relative '../board'
 
 # This class represents a generic chess piece for either (black or white) player.
 class Piece

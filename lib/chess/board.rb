@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'pieces/bishop'
-require_relative 'pieces/king'
-require_relative 'pieces/knight'
-require_relative 'pieces/pawn'
-require_relative 'pieces/queen'
-require_relative 'pieces/rook'
 require 'pry-byebug'
 
 # This class represents a standard chess board.
@@ -14,9 +8,9 @@ class Board
 
   def initialize(grid: generate_board)
     @grid = grid
-    @previous_pos = nil
-    @current_pos = nil
     set_board
+    @previous = nil
+    @current = nil
   end
 
   def make_play(start, target)
@@ -26,6 +20,8 @@ class Board
   end
 
   def test_move(start, target)
+    @previous = @grid[start[0]][start[1]]
+    @current = @grid[target[0]][target[1]]
     move_piece(start, target)
   end
 
@@ -37,10 +33,9 @@ class Board
   end
 
   def reset_move(start, target)
-    piece = @grid[target[0]][target[1]]
-    piece.location = start
-    @grid[start[0]][start[1]] = piece
-    @grid[target[0]][target[1]] = nil
+    @grid[start[0]][start[1]] = @previous
+    @grid[target[0]][target[1]] = @current
+    @grid[start[0]][start[1]].location = start
   end
 
   private

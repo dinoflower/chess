@@ -30,6 +30,7 @@ class Pawn < Piece
   end
 
   def confirm_move(moves, captures, finish, target, color)
+    return if captures.any?(finish) && target.nil?
     return unless moves.any?(finish) && target.nil? || captures.any?(finish) && target.opposite?(color)
 
     finish
@@ -52,7 +53,9 @@ class Pawn < Piece
   end
 
   def moveset
-    [regular_move.flatten, double_move.flatten]
+    all_moves = [regular_move.flatten, double_move.flatten]
+    valid_captures.each { |captures| all_moves << captures }
+    all_moves
   end
 
   def piece_symbol

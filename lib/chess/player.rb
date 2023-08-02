@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'game'
-require_relative 'move_checker'
-require_relative 'ui'
 require_relative 'display'
+require_relative 'move_checker'
 require_relative 'piece_finder'
+require_relative 'ui'
 require 'pry-byebug'
 
 # This class represents a human chess player.
@@ -37,6 +36,7 @@ class Player
     print_board
     target_space = choose_target
     check_valid(@color, @current_piece, target_space)
+    print_board
     pass_turn
   end
 
@@ -70,6 +70,7 @@ class Player
   def mated?
     piece_list = all_next_moves(find_player_pieces(@color))
     moves = move_array(piece_list)
+    moves.keep_if { |start, target| check_piece(@color, start, target) }
     moves.all? do |start, target|
       king_into_check?(start, target)
     end

@@ -69,6 +69,6 @@ module Display
   # end
 
   def declare_winner
-    "Congratulations, #{opponent}! You've checkmated #{@current_player}'s king!"
+    puts "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"
   end
 end
