@@ -20,6 +20,10 @@ class Piece
     post_initialize
   end
 
+  def crossed_board?
+    (@location.first.zero? && @color == 'white') || (@location.first == 7 && @color == 'black')
+  end
+
   def king?
     @type == 'king'
   end

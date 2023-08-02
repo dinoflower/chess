@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
+require_relative 'display'
+require_relative 'ui'
 require 'pry-byebug'
 
 # This class represents a standard chess board.
 class Board
+  include Display
+  include UI
   attr_accessor :grid
 
   def initialize(grid: generate_board)
@@ -15,8 +19,9 @@ class Board
 
   def make_play(start, target)
     piece = @grid[start[0]][start[1]]
-    piece.moved = true
     move_piece(start, target)
+    promote(piece, target) if piece.type == 'pawn' && piece.crossed_board?
+    piece.moved = true
   end
 
   def test_move(start, target)
@@ -39,6 +44,19 @@ class Board
   end
 
   private
+
+  def select_promotion(color, coords)
+    case select_new
+    when 'Q' then Queen.new(grid: @grid, color: color, location: [coords[0], coords[1]])
+    when 'R' then Rook.new(grid: @grid, color: color, location: [coords[0], coords[1]])
+    when 'B' then Bishop.new(grid: @grid, color: color, location: [coords[0], coords[1]])
+    when 'N' then Knight.new(grid: @grid, color: color, location: [coords[0], coords[1]])
+    end
+  end
+
+  def promote(piece, coords)
+    @grid[coords[0]][coords[1]] = select_promotion(piece.color, coords)
+  end
 
   def generate_board
     Array.new(8) { Array.new(8) }

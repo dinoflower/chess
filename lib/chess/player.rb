@@ -36,7 +36,6 @@ class Player
     print_board
     target_space = choose_target
     check_valid(@color, @current_piece, target_space)
-    print_board
     pass_turn
   end
 

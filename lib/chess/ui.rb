@@ -29,6 +29,16 @@ module UI
     end
   end
 
+  def select_new
+    loop do
+      promotion_prompt
+      piece = gets.chr.upcase
+      return piece if /[QRBN]/.match?(piece)
+
+      puts 'Please choose a valid promotion piece.'
+    end
+  end
+
   def conv_row(num)
     (num.to_i - 8).abs
   end

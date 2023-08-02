@@ -55,6 +55,17 @@ module Display
     " #{space.symbol} "
   end
 
+  def promotion_prompt
+    puts <<~HEREDOC
+      Your pawn has been promoted! Please choose your new piece:
+      Queen: Q
+      Rook: R
+      Bishop: B
+      Knight: N
+
+    HEREDOC
+  end
+
   # def intro
     # puts <<~HEREDOC
       # Welcome to Chess!
@@ -69,6 +80,7 @@ module Display
   # end
 
   def declare_winner
-    puts "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"
+    congrats = "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"
+    puts "\e[32m#{congrats}\e[0m"
   end
 end
