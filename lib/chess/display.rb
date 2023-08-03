@@ -62,7 +62,6 @@ module Display
       Rook: R
       Bishop: B
       Knight: N
-
     HEREDOC
   end
 

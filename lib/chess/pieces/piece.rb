@@ -24,6 +24,10 @@ class Piece
     (@location.first.zero? && @color == 'white') || (@location.first == 7 && @color == 'black')
   end
 
+  def to_s
+    "#{@color} #{@type}"
+  end
+
   def king?
     @type == 'king'
   end

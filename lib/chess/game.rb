@@ -34,8 +34,10 @@ class Game
     player_in_check
     return false unless opponent.in_check
 
-    puts warning # reconfig later since this is redundant if checkmate
-    opponent.mated?
+    res = opponent.mated?
+    puts warning unless res
+
+    res
   end
 
   private
