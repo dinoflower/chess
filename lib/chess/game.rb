@@ -50,7 +50,7 @@ class Game
 
   def game_turn
     print_board
-    puts "#{@current_player.name}, your go. Choose a piece to move."
+    player_input
     @current_player.play_turn
   end
 

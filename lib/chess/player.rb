@@ -42,21 +42,17 @@ class Player
   # checks to see if player chose 1. a piece 2. of theirs
   def choose_piece
     loop do
-      column = select_column
-      row = select_row
-      piece = [row, column]
+      piece = select_piece
       chosen_piece = piece unless simplify_piece(piece).nil? || simplify_piece(piece).color != @color
       return chosen_piece if chosen_piece
 
-      puts 'Please choose one of your pieces to move.'
+      piece_warning
     end
   end
 
   def choose_target
     puts 'Select your destination space:'
-    column = select_column
-    row = select_row
-    [row, column]
+    select_piece
   end
 
   # determine whether target king is in check

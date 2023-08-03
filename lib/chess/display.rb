@@ -55,6 +55,15 @@ module Display
     " #{space.symbol} "
   end
 
+  def piece_prompt
+    puts "#{@current_player.name}, your go. Choose a piece to move."
+  end
+
+  def piece_warning
+    message = 'Please choose a valid piece.'
+    puts "\e[31m#{message}\e[0m"
+  end
+
   def promotion_prompt
     puts <<~HEREDOC
       Your pawn has been promoted! Please choose your new piece:
@@ -71,12 +80,15 @@ module Display
 
       # All standard rules apply, including castling, en passant, and promotion, but
       # there is no timer. Type SAVE instead of making a move to save and exit your game.
+      # Type HELP if you need assistance. You may RESIGN at any time.
 
-      # Indicate the piece you would like to move by typing its location followed by the
-      # location of your target square.
+      # Indicate the piece you would like to move by typing its location (in algebraic notation)
+      # followed by the location of its destination square.
 
     # HEREDOC
   # end
+
+  # def help; end
 
   def declare_winner
     congrats = "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"

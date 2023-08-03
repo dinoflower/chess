@@ -7,25 +7,16 @@ module UI
     gets.chomp.capitalize
   end
 
-  def select_row
-    loop do
-      puts 'Please enter the row/rank:'
-      row = gets.chomp
-      legal_row = conv_row(row) if row.match?(/[1-8]/) && row.length == 1
-      return legal_row if legal_row
-
-      puts 'Please choose a row/rank on the board.'
-    end
+  def player_input
+    piece_prompt
   end
 
-  def select_column
+  def select_piece
     loop do
-      puts 'Please enter the column/file:'
-      column = gets.chomp
-      legal_column = conv_column(column) if column.match?(/[a-h]/) && column.length == 1
-      return legal_column if legal_column
-
-      puts 'Please choose a column/file on the board.'
+      puts 'Please enter the location in algabraic notation:'
+      loc = gets.chomp
+      legal_location = conv_loc(loc) if /[a-h][1-8]/.match?(loc) && loc.length == 2
+      return legal_location if legal_location
     end
   end
 
@@ -39,12 +30,8 @@ module UI
     end
   end
 
-  def conv_row(num)
-    (num.to_i - 8).abs
-  end
-
-  def conv_column(letter)
-    letter.tr('a-h', '0-7').to_i
+  def conv_loc(alg)
+    [(alg[1].to_i - 8).abs, alg[0].tr('a-h', '0-7').to_i]
   end
 end
 
