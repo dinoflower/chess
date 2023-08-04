@@ -38,7 +38,7 @@ module UI
     case input
     # when 'castle' then castle
     when 'help' then help
-    # when 'resign' then resign
+    when 'resign' then resign
     # when 'save' then save
     end
   end

@@ -103,4 +103,10 @@ module Display
     congrats = "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"
     puts "\e[32m#{congrats}\e[0m"
   end
+
+  def resign
+    resignation = "#{@current_player.name} has graciously resigned."
+    puts "\e[32m#{resignation}\e[0m"
+    exit
+  end
 end
