@@ -20,19 +20,18 @@ class Player
     @name = opts[:name]
     @board = opts[:board]
     @grid = opts[:grid]
-    @game = opts[:game]
     @current_piece = nil
     @previous_piece = nil
     @in_check = false
-    # @castled = false
+    @castled = false
   end
 
   def to_s
     "#{@color.capitalize}, #{@name}"
   end
 
-  def play_turn
-    @current_piece = choose_piece
+  def play_turn(move)
+    @current_piece = verify_piece(move)
     print_board
     target_space = choose_target
     check_valid(@color, @current_piece, target_space)
@@ -40,14 +39,12 @@ class Player
   end
 
   # checks to see if player chose 1. a piece 2. of theirs
-  def choose_piece
-    loop do
-      piece = select_piece
-      chosen_piece = piece unless simplify_piece(piece).nil? || simplify_piece(piece).color != @color
-      return chosen_piece if chosen_piece
+  def verify_piece(piece)
+    chosen_piece = piece unless simplify_piece(piece).nil? || simplify_piece(piece).color != @color
+    return chosen_piece if chosen_piece
 
-      piece_warning
-    end
+    piece_warning
+    verify_piece(select_piece)
   end
 
   def choose_target

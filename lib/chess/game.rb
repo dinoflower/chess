@@ -15,6 +15,7 @@ class Game
     @grid = board.grid
     @wh_player = wh_player
     @bl_player = bl_player
+    @options = %w[castle help resign save]
     @current_player = nil
   end
 
@@ -43,6 +44,7 @@ class Game
   private
 
   def start_game
+    # intro
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = @wh_player
@@ -50,8 +52,8 @@ class Game
 
   def game_turn
     print_board
-    player_input
-    @current_player.play_turn
+    move = prompt_player
+    @current_player.play_turn(move)
   end
 
   def change_players
@@ -63,7 +65,7 @@ class Game
   end
 
   def create_player(color)
-    Player.new(color: color, name: get_name(color), board: @board, grid: @grid, game: self)
+    Player.new(color: color, name: get_name(color), board: @board, grid: @grid)
   end
 
   def set_board

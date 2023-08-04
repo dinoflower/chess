@@ -55,8 +55,8 @@ module Display
     " #{space.symbol} "
   end
 
-  def piece_prompt
-    puts "#{@current_player.name}, your go. Choose a piece to move."
+  def turn_prompt
+    puts "#{@current_player.name}, your go."
   end
 
   def piece_warning
@@ -78,17 +78,26 @@ module Display
     # puts <<~HEREDOC
       # Welcome to Chess!
 
-      # All standard rules apply, including castling, en passant, and promotion, but
-      # there is no timer. Type SAVE instead of making a move to save and exit your game.
-      # Type HELP if you need assistance. You may RESIGN at any time.
+      # Indicate the piece you would like to move by typing its location (in algebraic notation) followed by the location of its destination square. Type SAVE instead of making a move to save and exit your game. Type CASTLE to castle your king, if applicable.
 
-      # Indicate the piece you would like to move by typing its location (in algebraic notation)
-      # followed by the location of its destination square.
+      # Type HELP if you need assistance. You may RESIGN at the beginning of your turn.
 
     # HEREDOC
   # end
 
-  # def help; end
+  def help
+    puts <<~HEREDOC
+      Use algebraic notation (e.g. e2) to first indicate the piece that you would like to move, followed by the destination square (e.g. e4).
+
+      Type CASTLE to castle your king. If you are able to castle, you will be prompted to choose short (kingside) or long (queenside) by typing "K" or "Q."
+
+      When a pawn advances to the final rank, you'll be prompted to choose your promotion piece. Type "Q" for Queen, "R" for Rook, "B" for Bishop, or "N" for Knight.
+
+      Type SAVE to save and exit your game.
+
+      Type RESIGN before selecting a piece to resign.
+    HEREDOC
+  end
 
   def declare_winner
     congrats = "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"
