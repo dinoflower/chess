@@ -6,10 +6,10 @@ module MoveChecker
   def check_valid(color, start, finish)
     if check_piece(color, start, finish).nil?
       puts 'Please make a valid move.'
-      play_turn
+      play_turn(prompt_player)
     elsif king_into_check?(start, finish)
       puts 'Illegal move: The king would be in check.'
-      play_turn
+      play_turn(prompt_player)
     else
       @board.make_play(start, finish)
     end

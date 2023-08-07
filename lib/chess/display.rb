@@ -2,11 +2,6 @@
 
 # A module to print a tidy board and messages.
 module Display
-  def warning
-    message = 'Warning! King in check!'
-    puts "\e[31m#{message}\e[0m"
-  end
-
   def print_board
     print "   a  b  c  d  e  f  g  h\n"
     print_rows
@@ -64,6 +59,20 @@ module Display
     puts "\e[31m#{message}\e[0m"
   end
 
+  def castle_input_warning
+    message = 'Please type "K" or "Q."'
+    puts "\e[31m#{message}\e[0m"
+  end
+
+  def warning
+    message = 'Warning! King in check!'
+    puts "\e[31m#{message}\e[0m"
+  end
+
+  def castle_prompt
+    puts 'Please choose short (kingside) or long (queenside) by typing "K" or "Q."'
+  end
+
   def promotion_prompt
     puts <<~HEREDOC
       Your pawn has been promoted! Please choose your new piece:
@@ -72,6 +81,17 @@ module Display
       Bishop: B
       Knight: N
     HEREDOC
+  end
+
+  def declare_winner
+    congrats = "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"
+    puts "\e[32m#{congrats}\e[0m"
+  end
+
+  def resign
+    resignation = "#{@current_player.name} has graciously resigned."
+    puts "\e[32m#{resignation}\e[0m"
+    exit
   end
 
   # def intro
@@ -97,16 +117,5 @@ module Display
 
       Type RESIGN before selecting a piece to resign.
     HEREDOC
-  end
-
-  def declare_winner
-    congrats = "Congratulations, #{@current_player.name}! You've checkmated #{opponent.name}'s king!"
-    puts "\e[32m#{congrats}\e[0m"
-  end
-
-  def resign
-    resignation = "#{@current_player.name} has graciously resigned."
-    puts "\e[32m#{resignation}\e[0m"
-    exit
   end
 end

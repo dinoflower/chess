@@ -36,7 +36,7 @@ module UI
 
   def manage_prompts(input)
     case input
-    # when 'castle' then castle
+    when 'castle' then @current_player.castle
     when 'help' then help
     when 'resign' then resign
     # when 'save' then save
@@ -50,6 +50,16 @@ module UI
       return piece if /[QRBN]/.match?(piece)
 
       piece_warning
+    end
+  end
+
+  def select_castle
+    loop do
+      castle_prompt
+      side = gets.chr.upcase
+      return side if /[QK]/.match?(side)
+
+      castle_input_warning
     end
   end
 

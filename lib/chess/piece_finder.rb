@@ -16,4 +16,9 @@ module PieceFinder
     king = find_player_pieces(color).select(&:king?)
     king.first.location
   end
+
+  def find_rooks(color)
+    rooks = find_player_pieces(color).select { |piece| piece.type == 'rook' }
+    rooks.map(&:location)
+  end
 end
