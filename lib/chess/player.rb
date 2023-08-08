@@ -46,19 +46,19 @@ class Player
     @current_piece = verify_piece(move)
     print_board
     target_space = choose_target
-    check_valid(@color, @current_piece, target_space)
+    check_valid(@current_piece, target_space)
     end_turn
   end
 
   def checked?(color, target_color, piece_list = find_player_pieces(color))
     king = find_king(target_color)
-    piece_list.any? { |piece| check_piece(color, piece.location, king) }
+    piece_list.any? { |piece| check_piece(piece.location, king) }
   end
 
   def mated?
     piece_list = all_next_moves(find_player_pieces(@color))
     moves = move_array(piece_list)
-    moves.keep_if { |start, target| check_piece(@color, start, target) }
+    moves.keep_if { |start, target| check_piece(start, target) }
     moves.all? do |start, target|
       king_into_check?(start, target)
     end

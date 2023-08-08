@@ -7,11 +7,11 @@ class Bishop < Piece
   MOVESET = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
   def post_initialize; end
 
-  def check_path(color, target, finish)
+  def check_path(target, finish)
     avail_moves = check_moves(@moves)
     return unless avail_moves.any?(finish)
 
-    return finish if target.nil? || target.opposite?(color)
+    return finish if target.nil? || target.opposite?(@color)
   end
 
   def check_moves(moves)

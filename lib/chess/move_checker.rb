@@ -2,8 +2,8 @@
 
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
-  def check_valid(color, start, finish)
-    if check_piece(color, start, finish).nil?
+  def check_valid(start, finish)
+    if check_piece(start, finish).nil?
       @current_piece = nil
       move_warning
     elsif king_into_check?(start, finish)
@@ -15,10 +15,10 @@ module MoveChecker
   end
 
   # converts location arrays to pieces on the board to call #check_path
-  def check_piece(color, start, finish)
+  def check_piece(start, finish)
     piece = simplify_piece(start)
     target = simplify_piece(finish)
-    piece.check_path(color, target, finish)
+    piece.check_path(target, finish)
   end
 
   def king_into_check?(start, finish)
