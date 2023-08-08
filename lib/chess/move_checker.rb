@@ -4,8 +4,10 @@
 module MoveChecker
   def check_valid(color, start, finish)
     if check_piece(color, start, finish).nil?
+      @current_piece = nil
       move_warning
     elsif king_into_check?(start, finish)
+      @current_piece = nil
       into_check_warning
     else
       @board.make_play(start, finish)

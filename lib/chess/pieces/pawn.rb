@@ -7,8 +7,8 @@ class Pawn < Piece
   def post_initialize; end
 
   def check_path(color, target, finish)
-    avail_moves = check_moves(valid_moves)
-    avail_captures = check_moves(valid_captures)
+    avail_moves = check_moves(possible_moves)
+    avail_captures = check_moves(possible_captures)
     return unless avail_moves.any?(finish) || avail_captures.any?(finish)
 
     confirm_move(avail_moves, avail_captures, finish, target, color)
@@ -25,15 +25,34 @@ class Pawn < Piece
 
   private
 
-  def valid_moves
+  def possible_moves
     @moved ? regular_move : [regular_move, double_move].flatten(1)
   end
 
   def confirm_move(moves, captures, finish, target, color)
     return if captures.any?(finish) && target.nil?
-    return unless moves.any?(finish) && target.nil? || captures.any?(finish) && target.opposite?(color)
+    # return unless capture_en_passant?(captures, finish, target)
+    return unless valid_move?(moves, finish, target) || captures.any?(finish) && target.opposite?(color)
 
     finish
+  end
+
+  def valid_move?(moves, finish, target)
+    moves.any?(finish) && target.nil?
+  end
+
+  def valid_capture?(captures, finish, target, color)
+    captures.any?(finish) && target.opposite?(color)
+  end
+
+  def capture_en_passant?(captures, finish, target)
+    return unless captures.any?(finish) && target.nil?
+
+    passed_square = [finish[0], @location[1]]
+    return unless occupied(passed_square) && simplify_piece(passed_square).type == 'pawn'
+    return if ally(passed_square)
+
+    opponent.previous_piece == passed_square
   end
 
   def regular_move
@@ -44,7 +63,7 @@ class Pawn < Piece
     @color == 'white' ? [[-2, 0]] : [[2, 0]]
   end
 
-  def valid_captures
+  def possible_captures
     @color == 'white' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
   end
 
@@ -54,7 +73,7 @@ class Pawn < Piece
 
   def moveset
     all_moves = [regular_move.flatten, double_move.flatten]
-    valid_captures.each { |captures| all_moves << captures }
+    possible_captures.each { |captures| all_moves << captures }
     all_moves
   end
 

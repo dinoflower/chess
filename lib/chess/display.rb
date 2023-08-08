@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A module to print a tidy board and messages.
+# A module to print a tidy board as well as prompts and warnings.
 module Display
   def print_board
     print "   a  b  c  d  e  f  g  h\n"
@@ -51,6 +51,7 @@ module Display
   end
 
   def turn_prompt(name)
+    print_board
     puts "#{name}, your go."
   end
 
@@ -112,8 +113,8 @@ module Display
     puts "\e[32m#{congrats}\e[0m"
   end
 
-  def resign
-    resignation = "#{@current_player.name} has graciously resigned."
+  def resign(name)
+    resignation = "#{name} has graciously resigned."
     puts "\e[32m#{resignation}\e[0m"
     exit
   end

@@ -22,6 +22,7 @@ class Board
     move_piece(start, target)
     promote(piece, target) if piece.type == 'pawn' && piece.crossed_board?
     piece.moved = true
+    @last_moved = piece
   end
 
   def test_move(start, target)

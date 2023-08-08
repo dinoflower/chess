@@ -15,7 +15,7 @@ class Player
   include PieceFinder
   include Castle
   attr_accessor :in_check
-  attr_reader :color, :name
+  attr_reader :color, :name, :previous_piece
 
   def initialize(**opts)
     @color = opts[:color]
@@ -36,7 +36,7 @@ class Player
     case opt
     when 'castle' then castle
     when 'help' then help
-    when 'resign' then resign
+    when 'resign' then resign(@name)
     # when 'save' then save
     else normal_turn(conv_loc(opt))
     end

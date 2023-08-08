@@ -50,7 +50,6 @@ class Game
   end
 
   def game_turn
-    print_board
     input = @current_player.prompt_player(@current_player.name)
     @current_player.play_turn(input)
   end
