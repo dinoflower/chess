@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require_relative 'display'
 require 'pry-byebug'
 
 # A module to contain prompts and print commands.
 module UI
+  include Display
   OPTIONS = %w[castle help resign save].freeze
   def get_name(color)
     puts "#{color.capitalize} player, please enter your name:"

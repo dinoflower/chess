@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'display'
 require_relative 'move_checker'
 require_relative 'piece_finder'
 require_relative 'ui'
@@ -11,7 +10,6 @@ require 'pry-byebug'
 class Player
   include MoveChecker
   include UI
-  include Display
   include PieceFinder
   include Castle
   attr_accessor :in_check
@@ -47,6 +45,11 @@ class Player
     print_board
     target_space = choose_target
     check_valid(@current_piece, target_space)
+    end_turn
+  end
+
+  def castle_turn
+    castle
     end_turn
   end
 

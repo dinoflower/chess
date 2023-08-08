@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'display'
 require_relative 'ui'
 require 'pry-byebug'
 
 # This class represents a standard chess board.
 class Board
-  include Display
   include UI
   attr_accessor :grid
 

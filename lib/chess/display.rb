@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-# A module to print a tidy board as well as prompts and warnings.
+require_relative 'warnings'
+
+# A module to print a tidy board as well as prompts.
 module Display
+  include Warnings
   def print_board
     print "   a  b  c  d  e  f  g  h\n"
     print_rows
@@ -60,52 +63,6 @@ module Display
       Your pawn has been promoted! Please choose your new piece:
       Queen: Q, Rook: R, Bishop: B, Knight: N
     HEREDOC
-  end
-
-  def warning_color(warning)
-    puts "\e[31m#{warning}\e[0m"
-  end
-
-  def input_warning
-    warning_color('Please provide valid input.')
-  end
-
-  def piece_warning
-    warning_color('Please choose a valid piece.')
-  end
-
-  def check_warning
-    warning_color('Warning! King in check!')
-  end
-
-  def move_warning
-    warning_color('Please make a valid move.')
-    play_turn
-  end
-
-  def into_check_warning
-    warning_color('Illegal move: The king would be in check.')
-    play_turn
-  end
-
-  def castle_eligibility_warning
-    warning_color('You are no longer eligible to castle. Please make another move.')
-  end
-
-  def castle_check_warning
-    warning_color('You may not castle while your king is in check.')
-  end
-
-  def rook_moved_warning
-    warning_color('That rook has previously moved.')
-  end
-
-  def castling_obstructed_warning
-    warning_color('There are pieces between your king and rook.')
-  end
-
-  def through_into_warning
-    warning_color('The king would pass through or end in check.')
   end
 
   def declare_winner

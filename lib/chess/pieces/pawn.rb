@@ -30,9 +30,13 @@ class Pawn < Piece
   end
 
   def confirm_move(moves, captures, finish, target)
-    return if captures.any?(finish) && target.nil?
-    # return unless capture_en_passant?(captures, finish, target)
-    return unless valid_move?(moves, finish, target) || captures.any?(finish) && target.opposite?(@color)
+    # return if captures.any?(finish) && target.nil?
+
+    valid_move = valid_move?(moves, finish, target)
+    valid_capture = valid_capture?(captures, finish, target)
+    en_passant = capture_en_passant?(captures, finish, target)
+
+    return unless valid_move || valid_capture || en_passant
 
     finish
   end
@@ -42,15 +46,17 @@ class Pawn < Piece
   end
 
   def valid_capture?(captures, finish, target)
+    return false if target.nil?
+
     captures.any?(finish) && target.opposite?(@color)
   end
 
   def capture_en_passant?(captures, finish, target)
-    return unless captures.any?(finish) && target.nil?
+    return false unless captures.any?(finish) && target.nil?
 
     passed_square = [finish[0], @location[1]]
-    return unless occupied(passed_square) && simplify_piece(passed_square).type == 'pawn'
-    return if ally(passed_square)
+    return false unless occupied(passed_square) && simplify_piece(passed_square).type == 'pawn'
+    return false if ally(passed_square)
 
     opponent.previous_piece == passed_square
   end

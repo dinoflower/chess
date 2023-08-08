@@ -11,10 +11,8 @@ module Castle
       select_castle == 'K' ? short_castle : long_castle
     elsif !@castlable
       castle_eligibility_warning
-      play_turn
     elsif @in_check
       castle_check_warning
-      play_turn
     end
   end
 
@@ -25,13 +23,10 @@ module Castle
   def short_castle
     if rook_moved?('short')
       rook_moved_warning
-      play_turn
     elsif occ_between_short?
       castling_obstructed_warning
-      play_turn
     elsif king_check_short?
       through_into_warning
-      play_turn
     else
       short_move(find_king(@color))
     end
@@ -40,13 +35,10 @@ module Castle
   def long_castle
     if rook_moved?('long')
       rook_moved_warning
-      play_turn
     elsif occ_between_long?
       castling_obstructed_warning
-      play_turn
     elsif king_check_long?
       through_into_warning
-      play_turn
     else
       long_move(find_king(@color))
     end
@@ -86,23 +78,39 @@ module Castle
   end
 
   def king_check_long?
-    king_moves = if @color == 'white'
-                   WHITE_QS.drop(1)
-                 else
-                   BLACK_QS.drop(1)
-                 end
+    king_moves = @color == 'white' ? WHITE_QS.drop(1) : BLACK_QS.drop(1)
     king_moves.any? { |coord| king_into_check?(find_king(@color), coord) }
   end
 
   def short_move(king)
     @color == 'white' ? @board.make_play(king, [7, 6]) : @board.make_play(king, [0, 6])
-    @color == 'white' ? @board.make_play([7, 7], [7, 5]) : @board.make_play([0, 7], [0, 5])
-    @castlable = false
+    move_rook_short(@color)
   end
 
   def long_move(king)
     @color == 'white' ? @board.make_play(king, [7, 2]) : @board.make_play(king, [0, 2])
-    @color == 'white' ? @board.make_play([7, 0], [7, 3]) : @board.make_play([0, 0], [0, 3])
-    @castlable = false
+    move_rook_long(@color)
+  end
+
+  def move_rook_short(color)
+    case color
+    when 'white'
+      @board.make_play([7, 7], [7, 5])
+      @current_piece = [7, 5]
+    when 'black'
+      @board.make_play([0, 7], [0, 5])
+      @current_piece = [0, 5]
+    end
+  end
+
+  def move_rook_long(color)
+    case color
+    when 'white'
+      @board.make_play([7, 0], [7, 3])
+      @current_piece = [7, 3]
+    when 'black'
+      @board.make_play([0, 0], [0, 3])
+      @current_piece = [0, 3]
+    end
   end
 end

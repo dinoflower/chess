@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'display'
 require_relative 'ui'
 require 'pry-byebug'
 
 # This class instantiates a single instance (one game) of chess.
 class Game
   include UI
-  include Display
   attr_reader :current_player
 
   def initialize(board: set_board, wh_player: nil, bl_player: nil)
