@@ -32,13 +32,22 @@ class Player
     "#{@color.capitalize}, #{@name}"
   end
 
-  def play_turn(move)
+  def play_turn(opt = prompt_player(@name))
+    case opt
+    when 'castle' then castle
+    when 'help' then help
+    when 'resign' then resign
+    # when 'save' then save
+    else normal_turn(conv_loc(opt))
+    end
+  end
+
+  def normal_turn(move)
     @current_piece = verify_piece(move)
     print_board
     target_space = choose_target
     check_valid(@color, @current_piece, target_space)
-    can_castle?
-    pass_turn
+    end_turn
   end
 
   def checked?(color, target_color, piece_list = find_player_pieces(color))
@@ -56,6 +65,11 @@ class Player
   end
 
   private
+
+  def end_turn
+    can_castle?
+    pass_turn
+  end
 
   def can_castle?
     rooks = find_rooks(@color).map { |rook| simplify_piece(rook) }

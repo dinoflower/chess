@@ -2,14 +2,11 @@
 
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
-  # TODO: clean up
   def check_valid(color, start, finish)
     if check_piece(color, start, finish).nil?
-      puts 'Please make a valid move.'
-      play_turn(prompt_player)
+      move_warning
     elsif king_into_check?(start, finish)
-      puts 'Illegal move: The king would be in check.'
-      play_turn(prompt_player)
+      into_check_warning
     else
       @board.make_play(start, finish)
     end

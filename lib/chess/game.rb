@@ -15,7 +15,6 @@ class Game
     @grid = board.grid
     @wh_player = wh_player
     @bl_player = bl_player
-    @options = %w[castle help resign save]
     @current_player = nil
   end
 
@@ -36,7 +35,7 @@ class Game
     return false unless opponent.in_check
 
     res = opponent.mated?
-    puts warning unless res
+    puts check_warning unless res
 
     res
   end
@@ -52,8 +51,8 @@ class Game
 
   def game_turn
     print_board
-    move = prompt_player
-    @current_player.play_turn(move)
+    input = @current_player.prompt_player(@current_player.name)
+    @current_player.play_turn(input)
   end
 
   def change_players

@@ -7,22 +7,31 @@ module Castle
   BLACK_KS = [[0, 5], [0, 6]].freeze
   BLACK_QS = [[0, 1], [0, 2], [0, 3]].freeze
   def castle
-    if !@castlable
-      puts 'You are no longer eligible to castle. Please make another move.'
-    elsif @in_check
-      puts 'You may not castle while your king is in check.'
-    else
+    if eligible?
       select_castle == 'K' ? short_castle : long_castle
+    elsif !@castlable
+      castle_eligibility_warning
+      play_turn
+    elsif @in_check
+      castle_check_warning
+      play_turn
     end
+  end
+
+  def eligible?
+    @castlable && !@in_check
   end
 
   def short_castle
     if rook_moved?('short')
-      puts 'That rook has previously moved.'
+      rook_moved_warning
+      play_turn
     elsif occ_between_short?
-      puts 'There are pieces between your king and rook.'
+      castling_obstructed_warning
+      play_turn
     elsif king_check_short?
-      puts 'The king would pass through or end in check.'
+      through_into_warning
+      play_turn
     else
       short_move(find_king(@color))
     end
@@ -30,11 +39,14 @@ module Castle
 
   def long_castle
     if rook_moved?('long')
-      puts 'That rook has previously moved.'
+      rook_moved_warning
+      play_turn
     elsif occ_between_long?
-      puts 'There are pieces between your king and rook.'
+      castling_obstructed_warning
+      play_turn
     elsif king_check_long?
-      puts 'The king would pass through or end in check.'
+      through_into_warning
+      play_turn
     else
       long_move(find_king(@color))
     end
@@ -85,10 +97,12 @@ module Castle
   def short_move(king)
     @color == 'white' ? @board.make_play(king, [7, 6]) : @board.make_play(king, [0, 6])
     @color == 'white' ? @board.make_play([7, 7], [7, 5]) : @board.make_play([0, 7], [0, 5])
+    @castlable = false
   end
 
   def long_move(king)
     @color == 'white' ? @board.make_play(king, [7, 2]) : @board.make_play(king, [0, 2])
     @color == 'white' ? @board.make_play([7, 0], [7, 3]) : @board.make_play([0, 0], [0, 3])
+    @castlable = false
   end
 end

@@ -50,37 +50,61 @@ module Display
     " #{space.symbol} "
   end
 
-  def turn_prompt
-    puts "#{@current_player.name}, your go."
-  end
-
-  def piece_warning
-    message = 'Please choose a valid piece.'
-    puts "\e[31m#{message}\e[0m"
-  end
-
-  def castle_input_warning
-    message = 'Please type "K" or "Q."'
-    puts "\e[31m#{message}\e[0m"
-  end
-
-  def warning
-    message = 'Warning! King in check!'
-    puts "\e[31m#{message}\e[0m"
-  end
-
-  def castle_prompt
-    puts 'Please choose short (kingside) or long (queenside) by typing "K" or "Q."'
+  def turn_prompt(name)
+    puts "#{name}, your go."
   end
 
   def promotion_prompt
     puts <<~HEREDOC
       Your pawn has been promoted! Please choose your new piece:
-      Queen: Q
-      Rook: R
-      Bishop: B
-      Knight: N
+      Queen: Q, Rook: R, Bishop: B, Knight: N
     HEREDOC
+  end
+
+  def warning_color(warning)
+    puts "\e[31m#{warning}\e[0m"
+  end
+
+  def input_warning
+    warning_color('Please provide valid input.')
+  end
+
+  def piece_warning
+    warning_color('Please choose a valid piece.')
+  end
+
+  def check_warning
+    warning_color('Warning! King in check!')
+  end
+
+  def move_warning
+    warning_color('Please make a valid move.')
+    play_turn
+  end
+
+  def into_check_warning
+    warning_color('Illegal move: The king would be in check.')
+    play_turn
+  end
+
+  def castle_eligibility_warning
+    warning_color('You are no longer eligible to castle. Please make another move.')
+  end
+
+  def castle_check_warning
+    warning_color('You may not castle while your king is in check.')
+  end
+
+  def rook_moved_warning
+    warning_color('That rook has previously moved.')
+  end
+
+  def castling_obstructed_warning
+    warning_color('There are pieces between your king and rook.')
+  end
+
+  def through_into_warning
+    warning_color('The king would pass through or end in check.')
   end
 
   def declare_winner
@@ -117,5 +141,6 @@ module Display
 
       Type RESIGN before selecting a piece to resign.
     HEREDOC
+    play_turn
   end
 end
