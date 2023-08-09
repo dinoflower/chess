@@ -1,17 +1,22 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
+require 'pry-byebug'
 
 # The Pawn subclass of Piece.
 class Pawn < Piece
-  def post_initialize; end
+  attr_accessor :passable
 
-  def check_path(target, finish)
+  def post_initialize
+    @passable = false
+  end
+
+  def check_path(target_piece, target_loc)
     avail_moves = check_moves(possible_moves)
     avail_captures = check_moves(possible_captures)
-    return unless avail_moves.any?(finish) || avail_captures.any?(finish)
+    return unless avail_moves.any?(target_loc) || avail_captures.any?(target_loc)
 
-    confirm_move(avail_moves, avail_captures, finish, target)
+    confirm_move(avail_moves, avail_captures, target_loc, target_piece)
   end
 
   def check_moves(moves)
@@ -29,36 +34,20 @@ class Pawn < Piece
     @moved ? regular_move : [regular_move, double_move].flatten(1)
   end
 
-  def confirm_move(moves, captures, finish, target)
-    # return if captures.any?(finish) && target.nil?
-
-    valid_move = valid_move?(moves, finish, target)
-    valid_capture = valid_capture?(captures, finish, target)
-    en_passant = capture_en_passant?(captures, finish, target)
-
-    return unless valid_move || valid_capture || en_passant
+  def confirm_move(moves, captures, target_loc, target_piece)
+    # because we shouldn't have gotten to this point if it's en passant
+    return if captures.any?(target_loc) && target_piece.nil?
+    return unless valid_moves?(moves, target_loc, target_piece) || valid_captures?(captures, target_loc, target_piece)
 
     finish
   end
 
-  def valid_move?(moves, finish, target)
-    moves.any?(finish) && target.nil?
+  def valid_moves?(moves, target_loc, target_piece)
+    moves.any?(target_loc) && target_piece.nil?
   end
 
-  def valid_capture?(captures, finish, target)
-    return false if target.nil?
-
-    captures.any?(finish) && target.opposite?(@color)
-  end
-
-  def capture_en_passant?(captures, finish, target)
-    return false unless captures.any?(finish) && target.nil?
-
-    passed_square = [finish[0], @location[1]]
-    return false unless occupied(passed_square) && simplify_piece(passed_square).type == 'pawn'
-    return false if ally(passed_square)
-
-    opponent.previous_piece == passed_square
+  def valid_captures?(captures, target_loc, target_piece)
+    captures.any?(target_loc) && target_piece.opposite?(@color)
   end
 
   def regular_move
@@ -87,5 +76,3 @@ class Pawn < Piece
     '♟'
   end
 end
-
-# TODO: implement en passant

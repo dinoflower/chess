@@ -11,34 +11,44 @@ class Board
   def initialize(grid: generate_board)
     @grid = grid
     set_board
-    @previous = nil
-    @current = nil
+    @previous_pos = nil
+    @current_pos = nil
+    @last_piece = nil
   end
 
-  def make_play(start, target)
+  def make_play(start, target_loc)
     piece = @grid[start[0]][start[1]]
-    move_piece(start, target)
-    promote(piece, target) if piece.type == 'pawn' && piece.crossed_board?
+    move_piece(start, target_loc)
+    promote(piece, target_loc) if piece.type == 'pawn' && piece.crossed_board?
+    toggle_passable(piece, start, target_loc) if piece.type == 'pawn'
     piece.moved = true
-    @last_moved = piece
+    @last_piece = piece
   end
 
-  def test_move(start, target)
-    @previous = @grid[start[0]][start[1]]
-    @current = @grid[target[0]][target[1]]
-    move_piece(start, target)
+  def toggle_passable(piece, start, target_loc)
+    piece.passable = pawn_double_advance?(start, target_loc) ? true : false
   end
 
-  def move_piece(start, target)
+  def pawn_double_advance?(start, target_loc)
+    (start.first - target_loc.first).abs == 2
+  end
+
+  def test_move(start, target_loc)
+    @previous_pos = @grid[start[0]][start[1]]
+    @current_pos = @grid[target_loc[0]][target_loc[1]]
+    move_piece(start, target_loc)
+  end
+
+  def move_piece(start, target_loc)
     piece = @grid[start[0]][start[1]]
-    piece.location = target
-    @grid[target[0]][target[1]] = piece
+    piece.location = target_loc
+    @grid[target_loc[0]][target_loc[1]] = piece
     @grid[start[0]][start[1]] = nil
   end
 
-  def reset_move(start, target)
-    @grid[start[0]][start[1]] = @previous
-    @grid[target[0]][target[1]] = @current
+  def reset_move(start, target_loc)
+    @grid[start[0]][start[1]] = @previous_pos
+    @grid[target_loc[0]][target_loc[1]] = @current_pos
     @grid[start[0]][start[1]].location = start
   end
 

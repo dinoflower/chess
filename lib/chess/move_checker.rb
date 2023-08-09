@@ -2,29 +2,54 @@
 
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
-  def check_valid(start, finish)
-    if check_piece(start, finish).nil?
+  def check_valid(start, target_loc)
+    if check_piece(start, target_loc).nil?
       @current_piece = nil
       move_warning
-    elsif king_into_check?(start, finish)
+    elsif king_into_check?(start, target_loc)
       @current_piece = nil
       into_check_warning
     else
-      @board.make_play(start, finish)
+      @board.make_play(start, target_loc)
     end
   end
 
   # converts location arrays to pieces on the board to call #check_path
-  def check_piece(start, finish)
+  def check_piece(start, target_loc)
     piece = simplify_piece(start)
-    target = simplify_piece(finish)
-    piece.check_path(target, finish)
+    target_piece = simplify_piece(target_loc)
+    if piece.pawn? && en_passantable?(piece, target_piece, target_loc)
+      move_en_passant(start, target_loc, passed_square)
+    else
+      piece.check_path(target_piece, target_loc)
+    end
   end
 
-  def king_into_check?(start, finish)
-    @board.test_move(start, finish)
+  def en_passantable?(piece, target_piece, target_loc)
+    return false unless target_piece.nil? && piece.check_moves(possible_captures).any?(target_loc)
+
+    passed_square = [target_loc[0], @location[1]]
+    return false unless capture_en_passant?(passed_square)
+
+    true
+  end
+
+  def capture_en_passant?(passed_square)
+    return false unless occupied(passed_square) && simplify_piece(passed_square).type == 'pawn'
+    return false if ally(passed_square)
+
+    passed_square.passable && @board.last_piece == passed_square
+  end
+
+  def move_en_passant(start, target_loc, passed_square)
+    @board[passed_square[0]][passed_square[1]] = nil
+    @board.make_play(start, target_loc)
+  end
+
+  def king_into_check?(start, target_loc)
+    @board.test_move(start, target_loc)
     result = checked?(opp_color, @color)
-    @board.reset_move(start, finish)
+    @board.reset_move(start, target_loc)
     result
   end
 
@@ -58,8 +83,8 @@ module MoveChecker
     simplify_piece(coords).color == @color
   end
 
-  def off_board(temp_location)
-    temp_location.any? { |coord| coord.negative? || coord > 7 }
+  def off_board(temp_loc)
+    temp_loc.any? { |coord| coord.negative? || coord > 7 }
   end
 
   def opposite?(color)

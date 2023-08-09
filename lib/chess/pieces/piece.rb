@@ -32,6 +32,10 @@ class Piece
     @type == 'king'
   end
 
+  def pawn?
+    @type == 'pawn'
+  end
+
   def check_moves(moves)
     raise NotImplementedError
   end

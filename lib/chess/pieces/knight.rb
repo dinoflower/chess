@@ -7,11 +7,11 @@ class Knight < Piece
   MOVESET = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [-2, 1], [2, -1], [-2, -1]].freeze
   def post_initialize; end
 
-  def check_path(target, finish)
+  def check_path(target_piece, target_loc)
     avail_moves = check_moves(@moves)
-    return unless avail_moves.any?(finish)
+    return unless avail_moves.any?(target_loc)
 
-    return finish if target.nil? || target.opposite?(@color)
+    return target_loc if target_piece.nil? || target_piece.opposite?(@color)
   end
 
   def check_moves(moves)

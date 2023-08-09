@@ -78,4 +78,3 @@ class Game
 end
 
 # TODO: implement save and load
-# TODO: implement stalemate

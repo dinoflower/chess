@@ -61,9 +61,9 @@ class Player
   def mated?
     piece_list = all_next_moves(find_player_pieces(@color))
     moves = move_array(piece_list)
-    moves.keep_if { |start, target| check_piece(start, target) }
-    moves.all? do |start, target|
-      king_into_check?(start, target)
+    moves.keep_if { |start, target_loc| check_piece(start, target_loc) }
+    moves.all? do |start, target_loc|
+      king_into_check?(start, target_loc)
     end
   end
 
