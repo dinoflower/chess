@@ -6,14 +6,16 @@ require 'pry-byebug'
 # The Pawn subclass of Piece.
 class Pawn < Piece
   attr_accessor :passable
+  attr_reader :captures
 
   def post_initialize
     @passable = false
+    @captures = possible_captures
   end
 
   def check_path(target_piece, target_loc)
     avail_moves = check_moves(possible_moves)
-    avail_captures = check_moves(possible_captures)
+    avail_captures = check_moves(@captures)
     return unless avail_moves.any?(target_loc) || avail_captures.any?(target_loc)
 
     confirm_move(avail_moves, avail_captures, target_loc, target_piece)
@@ -34,12 +36,15 @@ class Pawn < Piece
     @moved ? regular_move : [regular_move, double_move].flatten(1)
   end
 
+  def possible_captures
+    @color == 'white' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
+  end
+
   def confirm_move(moves, captures, target_loc, target_piece)
-    # because we shouldn't have gotten to this point if it's en passant
     return if captures.any?(target_loc) && target_piece.nil?
     return unless valid_moves?(moves, target_loc, target_piece) || valid_captures?(captures, target_loc, target_piece)
 
-    finish
+    target_loc
   end
 
   def valid_moves?(moves, target_loc, target_piece)
@@ -56,10 +61,6 @@ class Pawn < Piece
 
   def double_move
     @color == 'white' ? [[-2, 0]] : [[2, 0]]
-  end
-
-  def possible_captures
-    @color == 'white' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
   end
 
   def piece_type

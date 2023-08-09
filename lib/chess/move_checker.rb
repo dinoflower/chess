@@ -1,32 +1,30 @@
 # frozen_string_literal: true
 
+require 'pry-byebug'
+
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
   def check_valid(start, target_loc)
-    if check_piece(start, target_loc).nil?
-      @current_piece = nil
+    if simplify_piece(start).pawn? && en_passantable?(simplify_piece(start), target_loc)
+      move_en_passant(start, target_loc, passed_square)
+    elsif check_piece(start, target_loc).nil?
       move_warning
     elsif king_into_check?(start, target_loc)
-      @current_piece = nil
       into_check_warning
     else
       @board.make_play(start, target_loc)
     end
   end
 
-  # converts location arrays to pieces on the board to call #check_path
   def check_piece(start, target_loc)
     piece = simplify_piece(start)
     target_piece = simplify_piece(target_loc)
-    if piece.pawn? && en_passantable?(piece, target_piece, target_loc)
-      move_en_passant(start, target_loc, passed_square)
-    else
-      piece.check_path(target_piece, target_loc)
-    end
+    piece.check_path(target_piece, target_loc)
   end
 
-  def en_passantable?(piece, target_piece, target_loc)
-    return false unless target_piece.nil? && piece.check_moves(possible_captures).any?(target_loc)
+  def en_passantable?(piece, target_loc)
+    target_piece = simplify_piece(target_loc)
+    return false unless target_piece.nil? && piece.check_moves(piece.captures).any?(target_loc)
 
     passed_square = [target_loc[0], @location[1]]
     return false unless capture_en_passant?(passed_square)

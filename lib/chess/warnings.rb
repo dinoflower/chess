@@ -24,10 +24,12 @@ module Warnings
   end
 
   def move_warning
+    @current_piece = nil
     warn_and_retry('Please make a valid move.')
   end
 
   def into_check_warning
+    @current_piece = nil
     warn_and_retry('Illegal move: Your king would be in check.')
   end
 
