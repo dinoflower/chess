@@ -13,15 +13,13 @@ class Player
   include PieceFinder
   include Castle
   attr_accessor :in_check
-  attr_reader :color, :name, :previous_piece
+  attr_reader :color, :name
 
   def initialize(**opts)
     @color = opts[:color]
     @name = opts[:name]
     @board = opts[:board]
     @grid = opts[:grid]
-    @current_piece = nil
-    @previous_piece = nil
     @in_check = false
     @castlable = true
   end
@@ -41,16 +39,16 @@ class Player
   end
 
   def normal_turn(move)
-    @current_piece = verify_piece(move)
+    current_piece = verify_piece(move)
     print_board
     target_space = choose_target
-    check_valid(@current_piece, target_space)
-    end_turn
+    check_valid(current_piece, target_space)
+    can_castle?
   end
 
   def castle_turn
     castle
-    end_turn
+    can_castle?
   end
 
   def checked?(color, target_color, piece_list = find_player_pieces(color))
@@ -68,11 +66,6 @@ class Player
   end
 
   private
-
-  def end_turn
-    can_castle?
-    pass_turn
-  end
 
   def can_castle?
     rooks = find_rooks(@color).map { |rook| simplify_piece(rook) }
@@ -96,10 +89,5 @@ class Player
 
   def opp_color
     @color == 'white' ? 'black' : 'white'
-  end
-
-  def pass_turn
-    @previous_piece = @current_piece
-    @current_piece = nil
   end
 end

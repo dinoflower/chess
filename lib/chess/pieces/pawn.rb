@@ -30,6 +30,10 @@ class Pawn < Piece
     next_moves.keep_if { |move| move.length == 2 }
   end
 
+  def toggle_passable(passablity)
+    @passable = passablity ? true : false
+  end
+
   private
 
   def possible_moves

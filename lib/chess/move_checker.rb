@@ -4,9 +4,10 @@ require 'pry-byebug'
 
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
+  # should king_into_check be outside of the movement?
   def check_valid(start, target_loc)
-    if simplify_piece(start).pawn? && en_passantable?(simplify_piece(start), target_loc)
-      move_en_passant(start, target_loc, passed_square)
+    if simplify_piece(start).pawn? && en_passantable?(start, target_loc)
+      move_en_passant(start, target_loc)
     elsif check_piece(start, target_loc).nil?
       move_warning
     elsif king_into_check?(start, target_loc)
@@ -22,25 +23,28 @@ module MoveChecker
     piece.check_path(target_piece, target_loc)
   end
 
-  def en_passantable?(piece, target_loc)
+  def en_passantable?(start, target_loc)
+    piece = simplify_piece(start)
     target_piece = simplify_piece(target_loc)
     return false unless target_piece.nil? && piece.check_moves(piece.captures).any?(target_loc)
 
-    passed_square = [target_loc[0], @location[1]]
+    passed_square = [start[0], target_loc[1]]
     return false unless capture_en_passant?(passed_square)
 
     true
   end
 
   def capture_en_passant?(passed_square)
-    return false unless occupied(passed_square) && simplify_piece(passed_square).type == 'pawn'
+    return false unless occupied(passed_square) && simplify_piece(passed_square).pawn?
     return false if ally(passed_square)
 
-    passed_square.passable && @board.last_piece == passed_square
+    passed_piece = simplify_piece(passed_square)
+    passed_piece.passable && @board.last_piece == passed_piece
   end
 
-  def move_en_passant(start, target_loc, passed_square)
-    @board[passed_square[0]][passed_square[1]] = nil
+  def move_en_passant(start, target_loc)
+    passed_square = [start[0], target_loc[1]]
+    @grid[passed_square[0]][passed_square[1]] = nil
     @board.make_play(start, target_loc)
   end
 

@@ -7,6 +7,7 @@ require 'pry-byebug'
 class Board
   include UI
   attr_accessor :grid
+  attr_reader :last_piece
 
   def initialize(grid: generate_board)
     @grid = grid
@@ -20,13 +21,14 @@ class Board
     piece = @grid[start[0]][start[1]]
     move_piece(start, target_loc)
     promote(piece, target_loc) if piece.type == 'pawn' && piece.crossed_board?
-    toggle_passable(piece, start, target_loc) if piece.type == 'pawn'
+    update_passable(piece, start, target_loc) if piece.type == 'pawn'
     piece.moved = true
     @last_piece = piece
   end
 
-  def toggle_passable(piece, start, target_loc)
-    piece.passable = pawn_double_advance?(start, target_loc) ? true : false
+  def update_passable(piece, start, target_loc)
+    passablity = pawn_double_advance?(start, target_loc)
+    piece.toggle_passable(passablity)
   end
 
   def pawn_double_advance?(start, target_loc)
