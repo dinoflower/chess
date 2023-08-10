@@ -16,6 +16,8 @@ class Game
 
   def self.load_game
     saved = UI.load_save
+    saved.clear_screen
+    puts 'Welcome back to Chess! Type HELP if you need a refresher.'
     saved.play_game
   end
 
@@ -24,6 +26,7 @@ class Game
     @wh_player = create_player('white')
     @bl_player = create_player('black')
     @current_player = @wh_player
+    clear_screen
     play_game
   end
 

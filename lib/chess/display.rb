@@ -53,6 +53,10 @@ module Display
     " #{space.symbol} "
   end
 
+  def clear_screen
+    puts "\e[H\e[2J"
+  end
+
   def turn_prompt(name)
     print_board
     puts "#{name}, your go."
