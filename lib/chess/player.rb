@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'move_checker'
-require_relative 'piece_finder'
 require_relative 'ui'
 require_relative 'castle'
-require 'pry-byebug'
 
 # This class represents a human chess player.
 class Player
   include MoveChecker
   include UI
-  include PieceFinder
   include Castle
   attr_accessor :in_check
   attr_reader :color, :name
@@ -20,35 +17,27 @@ class Player
     @name = opts[:name]
     @board = opts[:board]
     @grid = opts[:grid]
+    @game = opts[:game]
     @in_check = false
     @castlable = true
+    @current_piece = nil
   end
 
   def to_s
     "#{@color.capitalize}, #{@name}"
   end
 
-  def play_turn(opt = prompt_player(@name))
-    case opt
-    when 'castle' then castle
-    when 'help' then help
-    when 'resign' then resign(@name)
-    # when 'save' then save
-    else normal_turn(conv_loc(opt))
-    end
-  end
-
-  def normal_turn(move)
-    current_piece = verify_piece(move)
+  def normal_turn(square)
+    @current_piece = verify_piece(square)
     print_board
     target_space = choose_target
-    check_valid(current_piece, target_space)
-    can_castle?
+    check_valid(@current_piece, target_space)
+    pass_turn
   end
 
   def castle_turn
     castle
-    can_castle?
+    pass_turn
   end
 
   def checked?(color, target_color, piece_list = find_player_pieces(color))
@@ -66,6 +55,11 @@ class Player
   end
 
   private
+
+  def pass_turn
+    can_castle?
+    @current_piece = nil
+  end
 
   def can_castle?
     rooks = find_rooks(@color).map { |rook| simplify_piece(rook) }

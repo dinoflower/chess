@@ -20,7 +20,7 @@ module Warnings
 
   def warn_and_retry(warning)
     puts "\e[31m#{warning}\e[0m"
-    play_turn
+    @game.game_turn
   end
 
   def move_warning

@@ -76,29 +76,35 @@ module Display
     exit
   end
 
-  # def intro
-    # puts <<~HEREDOC
-      # Welcome to Chess!
+  def intro
+    puts <<~HEREDOC
+      Welcome to Chess!
 
-      # Indicate the piece you would like to move by typing its location (in algebraic notation) followed by the location of its destination square. Type SAVE instead of making a move to save and exit your game. Type CASTLE to castle your king, if applicable.
+      Indicate the piece you would like to move by typing its location (in
+      algebraic notation) followed by the location of its destination square.
+      Type CASTLE to castle your king instead.
 
-      # Type HELP if you need assistance. You may RESIGN at the beginning of your turn.
+      Type SAVE instead of making a move to save and exit your game.
 
-    # HEREDOC
-  # end
+      Type HELP if you need assistance. You may RESIGN to concede the game or
+      declare it a draw.
+
+    HEREDOC
+  end
 
   def help
     puts <<~HEREDOC
-      Use algebraic notation (e.g. e2) to first indicate the piece that you would like to move, followed by the destination square (e.g. e4).
+      Use algebraic notation (e.g. e2) to first indicate the piece that you would
+      like to move, followed by the destination square (e.g. e4).
 
-      Type CASTLE to castle your king. If you are able to castle, you will be prompted to choose short (kingside) or long (queenside) by typing "K" or "Q."
+      Type CASTLE to castle your king. If you are able to castle, you will be
+      prompted to choose short (kingside) or long (queenside) by typing "K" or "Q."
 
-      When a pawn advances to the final rank, you'll be prompted to choose your promotion piece. Type "Q" for Queen, "R" for Rook, "B" for Bishop, or "N" for Knight.
+      When prompted to choose your promotion piece, type "Q" for Queen, "R" for Rook,
+      "B" for Bishop, or "N" for Knight.
 
-      Type SAVE to save and exit your game.
-
-      Type RESIGN before selecting a piece to resign.
+      Type SAVE to save and exit your game. Type RESIGN to resign.
     HEREDOC
-    play_turn
+    game_turn
   end
 end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'ui'
-require 'pry-byebug'
 
 # This class represents a standard chess board.
 class Board

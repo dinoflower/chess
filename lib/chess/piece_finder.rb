@@ -21,4 +21,24 @@ module PieceFinder
     rooks = find_player_pieces(color).select { |piece| piece.type == 'rook' }
     rooks.map(&:location)
   end
+
+  def occupied(coords)
+    return false if simplify_piece(coords).nil?
+
+    true
+  end
+
+  def ally(coords)
+    return false if simplify_piece(coords).nil?
+
+    simplify_piece(coords).color == @color
+  end
+
+  def off_board(temp_loc)
+    temp_loc.any? { |coord| coord.negative? || coord > 7 }
+  end
+
+  def simplify_piece(array)
+    @grid[array[0]][array[1]]
+  end
 end

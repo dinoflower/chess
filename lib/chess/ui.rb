@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
+require 'yaml'
 require_relative 'display'
-require 'pry-byebug'
 
 # A module to contain prompts and print commands.
 module UI
   include Display
   OPTIONS = %w[castle help resign save].freeze
-  def get_name(color)
+  def ask_name(color)
     puts "#{color.capitalize} player, please enter your name:"
-    gets.chomp.capitalize
+    gets.chomp
   end
 
   def prompt_player(name)
@@ -65,6 +65,25 @@ module UI
   def valid_move?(input)
     /[a-h][1-8]/.match?(input) && input.length == 2
   end
-end
 
-# TODO: #save and #quit will go here with the #save method then calling Serializer
+  def self.save_game(game)
+    yaml = Psych.dump(game)
+    Dir.mkdir('data') unless Dir.exist?('data')
+    puts 'Name your save file:'
+    extension = $stdin.gets.chomp.gsub(/\W/, '')
+    File.open("data/#{extension}.yaml", 'w') { |save_file| save_file.puts yaml }
+    puts 'Thank you for playing. See you next time!'
+    exit
+  end
+
+  def self.load_save
+    puts 'Please choose your save file:'
+    Dir.each_child('data') { |x| puts x.delete_suffix('.yaml') }
+    save_name = $stdin.gets.chomp.gsub(/\W/, '')
+    f = File.new("data/#{save_name}.yaml")
+    yaml = f.read
+    Psych.safe_load(
+      yaml, permitted_classes: [Game, Player, Board, Piece, Bishop, King, Knight, Pawn, Queen, Rook], aliases: true
+    )
+  end
+end

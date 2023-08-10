@@ -1,13 +1,21 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
+require_relative 'piece_finder'
 
 # A module to contain piece and move validation, along with helper methods.
 module MoveChecker
-  # should king_into_check be outside of the movement?
+  include PieceFinder
+  def verify_piece(piece, color)
+    chosen_piece = piece unless simplify_piece(piece).nil? || simplify_piece(piece).color != color
+    return chosen_piece if chosen_piece
+
+    piece_warning
+    verify_piece(select_piece)
+  end
+
   def check_valid(start, target_loc)
     if simplify_piece(start).pawn? && en_passantable?(start, target_loc)
-      move_en_passant(start, target_loc)
+      king_into_check?(start, target_loc) ? into_check_warning : move_en_passant(start, target_loc)
     elsif check_piece(start, target_loc).nil?
       move_warning
     elsif king_into_check?(start, target_loc)
@@ -17,10 +25,11 @@ module MoveChecker
     end
   end
 
-  def check_piece(start, target_loc)
-    piece = simplify_piece(start)
-    target_piece = simplify_piece(target_loc)
-    piece.check_path(target_piece, target_loc)
+  def king_into_check?(start, target_loc)
+    @board.test_move(start, target_loc)
+    result = checked?(opp_color, @color)
+    @board.reset_move(start, target_loc)
+    result
   end
 
   def en_passantable?(start, target_loc)
@@ -48,11 +57,10 @@ module MoveChecker
     @board.make_play(start, target_loc)
   end
 
-  def king_into_check?(start, target_loc)
-    @board.test_move(start, target_loc)
-    result = checked?(opp_color, @color)
-    @board.reset_move(start, target_loc)
-    result
+  def check_piece(start, target_loc)
+    piece = simplify_piece(start)
+    target_piece = simplify_piece(target_loc)
+    piece.check_path(target_piece, target_loc)
   end
 
   # creates hash of current locations with arr of possible next moves as value
@@ -73,27 +81,7 @@ module MoveChecker
     [move[0] + coords[0], move[1] + coords[1]]
   end
 
-  def occupied(coords)
-    return false if simplify_piece(coords).nil?
-
-    true
-  end
-
-  def ally(coords)
-    return false if simplify_piece(coords).nil?
-
-    simplify_piece(coords).color == @color
-  end
-
-  def off_board(temp_loc)
-    temp_loc.any? { |coord| coord.negative? || coord > 7 }
-  end
-
   def opposite?(color)
     @color != color
-  end
-
-  def simplify_piece(array)
-    @grid[array[0]][array[1]]
   end
 end

@@ -11,5 +11,10 @@ require_relative 'chess/pieces/bishop'
 require_relative 'chess/pieces/knight'
 require_relative 'chess/pieces/pawn'
 
-game = Game.new
-game.play_game
+if Dir.exist?('data') && !Dir.empty?('data')
+  puts 'Would you like to load a saved game?'
+  answer = $stdin.gets.chr.upcase
+  answer == 'Y' ? Game.load_game : Game.new.start_game
+else
+  Game.new.start_game
+end
