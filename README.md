@@ -1,6 +1,6 @@
 # <Chess>
 
-A command-line chess game for two players, written in Ruby. Try it on replit or clone the repo (requires
+A command-line chess game for two players, written in Ruby. Try it on [replit](https://replit.com/@dinoflower/chess?v=1) or clone the repo (requires
 Ruby).
 
 ## About
