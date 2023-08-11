@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
-require 'pry-byebug'
 
 # The Pawn subclass of Piece.
 class Pawn < Piece
